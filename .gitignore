@@ -15,5 +15,16 @@
 /log/*.log
 /tmp
 
-# Ignore locks
+# Ignore locks.
 /*.lock
+
+# Ignore tips files.
+/tips_*
+
+# Ignore other unneded files.
+doc/
+*.swp
+*~
+.project
+.DS_Store
+

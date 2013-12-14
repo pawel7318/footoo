@@ -16,7 +16,7 @@ end
 
 group :test do
 	gem 'capybara'
-	gem 'spork'
+	gem 'spork-rails'
 	gem 'factory_girl_rails'
 end
 
@@ -28,6 +28,7 @@ gem 'turbolinks'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'less-rails'
+gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'sass-rails'
 
