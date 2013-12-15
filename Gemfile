@@ -31,7 +31,7 @@ gem 'less-rails'
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'sass-rails'
-
+gem 'paperclip'
 
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes

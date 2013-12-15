@@ -1,4 +1,6 @@
 Footoo::Application.routes.draw do
+  resources :slides
+
   resources :albums
 
   # The priority is based upon order of creation: first created -> highest priority.
