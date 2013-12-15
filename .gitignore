@@ -21,6 +21,9 @@
 # Ignore tips files.
 /tips_*
 
+# Ignore ctags file
+/.tags
+
 # Ignore other unneded files.
 doc/
 *.swp
