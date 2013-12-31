@@ -1,6 +1,6 @@
 <%= image_tag @slide.photo.url(:thumb) %>
 
-<%= form_for @slide, :url => slides_path, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+<%= form_for ([ @album, @slide ]), :url => album_slides_path(params[:album_id]), :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
     <%= f.label :description, :class => 'control-label' %>
     <div class="controls">
@@ -20,6 +20,6 @@
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                slides_path, :class => 'btn' %>
+                album_slides_path, :class => 'btn' %>
   </div>
 <% end %>

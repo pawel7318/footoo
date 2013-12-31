@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20131214232741) do
   end
 
   create_table "slides", force: true do |t|
+    t.integer  "album_id"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -29,5 +30,7 @@ ActiveRecord::Schema.define(version: 20131214232741) do
     t.datetime "photo_updated_at"
     t.string   "photo_fingerprint"
   end
+
+  add_index "slides", ["album_id", "created_at"], name: "index_slides_on_album_id_and_created_at"
 
 end

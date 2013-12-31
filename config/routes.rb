@@ -1,7 +1,10 @@
 Footoo::Application.routes.draw do
-  resources :slides
 
-  resources :albums
+
+  resources :albums do
+      resources :slides, shallow: true
+  end
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

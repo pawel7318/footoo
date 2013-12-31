@@ -32,6 +32,7 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'sass-rails'
 gem 'paperclip'
+gem 'exifr'
 
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes

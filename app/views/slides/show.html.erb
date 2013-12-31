@@ -22,14 +22,22 @@
   <dd><%= @slide.photo_fingerprint %></dd>
 </dl>
 
+<!-- EXIF -->
+<% if EXIFR::JPEG.new(@slide.photo.path).exif? %>
+  <dl class="dl-horizontal">
+  <% EXIFR::JPEG.new(@slide.photo.path).exif.to_hash.each do |key, value| %>
+  <dt><strong><%= key %>:</strong></dt>
+  <dd><%= value %></dd>
+  <% end %>
+</dl>
+<% end %>
+
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              slides_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_slide_path(@slide), :class => 'btn' %>
+  edit_slide_path(:id), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              slide_path(@slide),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  slide_path(:id),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
 </div>

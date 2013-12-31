@@ -19,9 +19,9 @@
   </thead>
   <tbody>
     <% @slides.each do |slide| %>
-      <tr>
-        <td><%= link_to slide.id, slide_path(slide) %></td>
-        <td><%= image_tag slide.photo.url(:thumb) %></th>
+    <tr>
+      <td><%= link_to slide.id, album_slides_path(:album_id, :id) %></td>
+      <td><%= image_tag slide.photo.url(:thumb) %></th>
         <td><%= slide.description %></td>
         <td><%= slide.photo_file_name %></td>
         <td><%= slide.photo_content_type %></td>
@@ -31,18 +31,18 @@
         <td><%=l slide.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_slide_path(slide), :class => 'btn btn-mini' %>
+          '#', :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      slide_path(slide),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+          '#',
+          :method => :delete,
+          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+          :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_slide_path,
-            :class => 'btn btn-primary' %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+  new_album_slide_path,
+  :class => 'btn btn-primary' %>
