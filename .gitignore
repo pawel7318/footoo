@@ -24,6 +24,9 @@
 # Ignore ctags file
 /.tags
 
+# uploaded files
+/public/system
+
 # Ignore other unneded files.
 doc/
 *.swp

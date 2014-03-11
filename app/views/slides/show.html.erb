@@ -20,6 +20,8 @@
   <dd><%= @slide.photo_updated_at %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_fingerprint) %>:</strong></dt>
   <dd><%= @slide.photo_fingerprint %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:album_id) %>:</strong></dt>
+  <dd><%= @slide.album.name %></dd>
 </dl>
 
 <!-- EXIF -->
@@ -34,9 +36,9 @@
 
 <div class="form-actions">
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-  edit_slide_path(:id), :class => 'btn' %>
+  edit_slide_path(@slide.id), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-  slide_path(:id),
+  slide_path(@slide.id),
   :method => 'delete',
   :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
   :class => 'btn btn-danger' %>

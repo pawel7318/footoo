@@ -18,6 +18,7 @@ group :test do
 	gem 'capybara'
 	gem 'spork-rails'
 	gem 'factory_girl_rails'
+	gem 'faker'
 end
 
 # Gems used only for assets and not required

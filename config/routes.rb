@@ -1,5 +1,6 @@
 Footoo::Application.routes.draw do
 
+  root to: 'albums#index'
 
   resources :albums do
       resources :slides, shallow: true

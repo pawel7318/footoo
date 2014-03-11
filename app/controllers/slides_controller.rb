@@ -1,7 +1,7 @@
 class SlidesController < ApplicationController
-  before_action :set_slide, only: [:show, :edit, :update, :destroy]
-  before_action :set_album, only: [:index, :create, :update, :destroy]
-
+  before_action :set_slide, only: [:show, :destroy]
+  before_action :set_album, only: [:new, :index, :create]
+  before_action :set_slide_and_album, only: [:edit, :update, :destroy]
 
   # GET /slides
   def index
@@ -24,11 +24,10 @@ class SlidesController < ApplicationController
   # POST /slides
   def create
     
-    # @slide = Slide.new(slide_new_params)
     @slide = @album.slides.build(slide_new_params)
 
-    if @slide.save
-      redirect_to @slide, notice: 'Slide was successfully created.'
+    if @slide.save      
+      redirect_to album_slides_url, notice: 'Slide was successfully created.'
     else
       render action: 'new'
     end
@@ -37,7 +36,7 @@ class SlidesController < ApplicationController
   # PATCH/PUT /slides/1
   def update
     if @slide.update(slide_params)
-      redirect_to [@album, @slide], notice: 'Slide was successfully updated.'
+      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully updated.'
     else
       render action: 'edit'
     end
@@ -46,13 +45,19 @@ class SlidesController < ApplicationController
   # DELETE /slides/1
   def destroy
     @slide.destroy
-    redirect_to album_slides_url, notice: 'Slide was successfully destroyed.'
+    redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully destroyed.'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_album
       @album = Album.find(params[:album_id])
+    end
+
+    def set_slide_and_album
+      @slide = Slide.find(params[:id])
+      @album = @slide.album
+      @album_id = @slide.album_id
     end
 
     def set_slide
