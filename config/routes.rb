@@ -2,9 +2,11 @@ Footoo::Application.routes.draw do
 
   root to: 'albums#index'
 
-  resources :albums do
+  resources :albums, except: :show do
       resources :slides, shallow: true
   end
+
+  get 'albums/:album_id', to: 'slides#index'
   
 
   # The priority is based upon order of creation: first created -> highest priority.
