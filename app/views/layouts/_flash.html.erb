@@ -1,0 +1,15 @@
+<%- flash.each do |key, msg| -%>
+<div id="<%= key %>">
+	<p style="float:right;"><%= link_to_function 'X', "Effect.Fade('#{key}')" %></p>
+	<%- if msg.is_a? Array -%>
+	<%- msg.each do |m| -%>	
+	<p><%= m %></p>
+	<div class="clear"></div>
+	<%- end -%>
+	<%- else -%>
+	<p><%= msg %></p>
+	<div class="clear"></div>
+	<%- end -%>
+</div>
+<%- end -%>
+

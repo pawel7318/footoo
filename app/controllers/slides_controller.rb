@@ -23,15 +23,35 @@ class SlidesController < ApplicationController
 
   # POST /slides
   def create
-    
-    @slide = @album.slides.build(slide_new_params)
 
+    slide_new_params['photo'].each do |p|
+      @photo = p
+      @slide = @album.slides.build(photo: @photo)
+
+      if @slide.save
+        
+          flash_message :notice, p.original_filename + ' was successfully uploaded'
+        else
+          flash_message :error, p.original_filename + ' has some problems'
+      end      
+    end
+
+    redirect_to album_slides_url
+
+
+
+    #@slide = @album.slides.build(slide_new_params)
+
+=begin
     if @slide.save      
       redirect_to album_slides_url, notice: 'Slide was successfully created.'
     else
       render action: 'new'
     end
-  end
+=end
+  
+end
+
 
   # PATCH/PUT /slides/1
   def update
@@ -70,7 +90,10 @@ class SlidesController < ApplicationController
     end
 
     def slide_new_params
+      require 'pp'
+      pp params
       params.require(:album_id)
-      params.require(:slide).permit(:description, :photo)
+      params.require(:slide).permit(:description, :photo => [])
+      
     end
-end
+  end

@@ -34,6 +34,8 @@ gem 'twitter-bootstrap-rails'
 gem 'sass-rails'
 gem 'paperclip'
 gem 'exifr'
+gem 'jquery-fileupload-rails'
+gem 'activerecord-import'
 
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
