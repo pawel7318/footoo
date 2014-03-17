@@ -22,7 +22,7 @@
 /tips_*
 
 # Ignore ctags file
-/.tags
+/.tags*
 
 # uploaded files
 /public/system

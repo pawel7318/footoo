@@ -26,6 +26,8 @@ class SlidesController < ApplicationController
     slide_new_params['photo'].each do |p|
       @photo = p
       @slide = @album.slides.build(photo: @photo)
+      
+      @slide['description'] = slide_new_params['description']
 
       if @slide.save        
         flash_message :notice, p.original_filename + ' was successfully uploaded'
