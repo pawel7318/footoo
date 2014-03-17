@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131214232741) do
+ActiveRecord::Schema.define(version: 20140317034117) do
 
   create_table "albums", force: true do |t|
     t.string   "name"
@@ -32,5 +32,6 @@ ActiveRecord::Schema.define(version: 20131214232741) do
   end
 
   add_index "slides", ["album_id", "created_at"], name: "index_slides_on_album_id_and_created_at"
+  add_index "slides", ["photo_fingerprint"], name: "index_slides_on_photo_fingerprint", unique: true
 
 end
