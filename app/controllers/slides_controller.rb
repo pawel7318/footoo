@@ -23,49 +23,36 @@ class SlidesController < ApplicationController
 
   # POST /slides
   def create
-
     slide_new_params['photo'].each do |p|
       @photo = p
       @slide = @album.slides.build(photo: @photo)
 
-      if @slide.save
-        
-          flash_message :notice, p.original_filename + ' was successfully uploaded'
-        else
-          flash_message :error, p.original_filename + ' has some problems'
+      if @slide.save        
+        flash_message :notice, p.original_filename + ' was successfully uploaded'
+      else
+        flash_message :error, p.original_filename + ' has some problems: ' + @slide.errors.full_messages.join(' ')
       end      
     end
-
-    redirect_to album_slides_url
-
-
-
-    #@slide = @album.slides.build(slide_new_params)
-
-=begin
-    if @slide.save      
-      redirect_to album_slides_url, notice: 'Slide was successfully created.'
-    else
-      render action: 'new'
-    end
-=end
+    redirect_to album_slides_url  
+  end
   
-end
-
-
   # PATCH/PUT /slides/1
   def update
     if @slide.update(slide_params)
       redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully updated.'
     else
+      flash_message :error, @slide.errors.full_messages.join(" ")
       render action: 'edit'
     end
   end
 
   # DELETE /slides/1
   def destroy
-    @slide.destroy
-    redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully destroyed.'
+    if @slide.destroy      
+      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully destroyed.'
+    else
+      flash_message :error, @slide.errors.full_messages.join(" ")
+    end
   end
 
   private
@@ -90,10 +77,9 @@ end
     end
 
     def slide_new_params
-      require 'pp'
-      pp params
       params.require(:album_id)
-      params.require(:slide).permit(:description, :photo => [])
+      params[:slide][:photo] ||= []
+      params.require(:slide).permit(:description, photo: [])
       
     end
   end

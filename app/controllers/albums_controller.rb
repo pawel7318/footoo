@@ -26,23 +26,28 @@ class AlbumsController < ApplicationController
     if @album.save
       redirect_to @album, notice: 'Album was successfully created.'
     else
+      flash_message :error, @album.errors.full_messages.join(" ")
       render action: 'new'
     end
   end
-
-  # PATCH/PUT /albums/1
+  # /PUT /albums/1
   def update
     if @album.update(album_params)
       redirect_to @album, notice: 'Album was successfully updated.'
     else
+      flash_message :error, @album.errors.full_messages.join(" ")
       render action: 'edit'
     end
   end
 
   # DELETE /albums/1
   def destroy
-    @album.destroy
-    redirect_to albums_url, notice: 'Album was successfully destroyed.'
+    if @album.destroy
+      redirect_to albums_url, notice: 'Album was successfully destroyed.'
+    else
+      flash_message :error, @album.errors.full_messages.join(" ")
+      redirect_to albums_url
+    end
   end
 
   private
@@ -55,4 +60,4 @@ class AlbumsController < ApplicationController
     def album_params
       params.require(:album).permit(:name)
     end
-end
+  end
