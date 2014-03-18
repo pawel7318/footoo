@@ -36,7 +36,7 @@ gem 'paperclip'
 gem 'exifr'
 gem 'jquery-fileupload-rails'
 gem 'activerecord-import'
-
+gem 'paranoid2'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', :platform => :ruby
