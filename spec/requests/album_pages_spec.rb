@@ -8,8 +8,8 @@ end
 shared_examples_for "navbar" do
 	it { expect(page).to have_selector('div.navbar') }
 	it { expect(page).to have_link('Albums')}
-	it { expect(page).to have_link('Upload')}
-	it { expect(page).to have_link('Contact Us')}
+	it { expect(page).to have_link('Trash')}
+	it { expect(page).to have_link('About')}
 end
 
 describe "Home page" do

@@ -51,7 +51,7 @@ class SlidesController < ApplicationController
   # DELETE /slides/1
   def destroy
     if @slide.destroy
-      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully destroyed.'
+      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully trashed.'
     else
       flash_message :error, @slide.errors.full_messages.join(" ")
     end

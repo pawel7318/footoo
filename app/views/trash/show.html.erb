@@ -5,29 +5,29 @@
 
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:thumbnail) %>:</strong></dt>
-  <dd><%= image_tag @slide.photo.url(:thumb) %></dd>
+  <dd><%= image_tag @trashed_slide.photo.url(:thumb) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:oryginal_file_path) %>:</strong></dt>
-  <dd><%= @slide.photo.url %></dd>
+  <dd><%= @trashed_slide.photo.url %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @desc = @slide.description; @desc.blank? ? "&nbsp;".html_safe : @desc %></dd>
+  <dd><%= @desc = @trashed_slide.description; @desc.blank? ? "&nbsp;".html_safe : @desc %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_file_name) %>:</strong></dt>
-  <dd><%= @slide.photo_file_name %></dd>
+  <dd><%= @trashed_slide.photo_file_name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_content_type) %>:</strong></dt>
-  <dd><%= @slide.photo_content_type %></dd>
+  <dd><%= @trashed_slide.photo_content_type %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_file_size) %>:</strong></dt>
-  <dd><%= @slide.photo_file_size %></dd>
+  <dd><%= @trashed_slide.photo_file_size %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_updated_at) %>:</strong></dt>
-  <dd><%= @slide.photo_updated_at %></dd>
+  <dd><%= @trashed_slide.photo_updated_at %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_fingerprint) %>:</strong></dt>
-  <dd><%= @slide.photo_fingerprint %></dd>
+  <dd><%= @trashed_slide.photo_fingerprint %></dd>
   <dt><strong><%= model_class.human_attribute_name(:album_id) %>:</strong></dt>
-  <dd><%= @slide.album.name %></dd>
+  <dd><%= @trashed_slide.album.name %></dd>
 </dl>
 
 <!-- EXIF -->
-<% if EXIFR::JPEG.new(@slide.photo.path).exif? %>
+<% if EXIFR::JPEG.new(@trashed_slide.photo.path).exif? %>
   <dl class="dl-horizontal">
-  <% EXIFR::JPEG.new(@slide.photo.path).exif.to_hash.each do |key, value| %>
+  <% EXIFR::JPEG.new(@trashed_slide.photo.path).exif.to_hash.each do |key, value| %>
   <dt><strong><%= key %>:</strong></dt>
   <dd><%= value %></dd>
   <% end %>
@@ -35,10 +35,8 @@
 <% end %>
 
 <div class="form-actions">
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-  edit_slide_path(@slide.id), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-  slide_path(@slide.id),
+  trash_path(@trashed_slide.id),
   :method => 'delete',
   :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
   :class => 'btn btn-danger' %>

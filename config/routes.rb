@@ -1,13 +1,24 @@
 Footoo::Application.routes.draw do
 
+
   root to: 'albums#index'
 
   resources :albums, except: :show do
-      resources :slides, shallow: true
+    resources :slides, shallow: true
   end
 
   get 'albums/:album_id', to: 'slides#index'
   
+  resources :trash, only: [:index, :show, :destroy] do
+    match 'all', to: 'trash#destroy_all', via: :delete, on: :collection
+    match 'all', to: 'trash#restore_all', via: :patch, on: :collection
+    match 'all', to: 'trash#restore_all', via: :put, on: :collection
+  end
+    match 'trash/:id', to: 'trash#restore', via: :patch
+    match 'trash/:id', to: 'trash#restore', via: :put
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
