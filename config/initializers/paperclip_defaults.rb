@@ -5,7 +5,7 @@ Paperclip::Attachment.default_options.update({
 	})
 
 Paperclip.interpolates :subdir do |attachment, style|
-	attachment.fingerprint[0..2]
+	attachment.fingerprint[0..1]
 end
 
 Paperclip.interpolates :fixed_extension do |attachment, style|

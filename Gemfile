@@ -37,6 +37,10 @@ gem 'exifr'
 gem 'jquery-fileupload-rails'
 gem 'activerecord-import'
 gem 'paranoid2'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'delayed_paperclip'
+gem 'daemons'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', :platform => :ruby
