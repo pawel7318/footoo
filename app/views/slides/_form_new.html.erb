@@ -1,5 +1,3 @@
-<%= image_tag @slide.photo.url(:thumb) %>
-
 <%= form_for (@slide), :url => album_slides_path, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
 <div class="control-group">
   <%= f.label :description, :class => 'control-label' %>

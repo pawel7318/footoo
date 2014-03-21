@@ -14,10 +14,10 @@ Footoo::Application.routes.draw do
     match 'all', to: 'trash#restore_all', via: :patch, on: :collection
     match 'all', to: 'trash#restore_all', via: :put, on: :collection
   end
-    match 'trash/:id', to: 'trash#restore', via: :patch
-    match 'trash/:id', to: 'trash#restore', via: :put
+  match 'trash/:id', to: 'trash#restore', via: :patch
+  match 'trash/:id', to: 'trash#restore', via: :put
 
-
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
 
   # The priority is based upon order of creation: first created -> highest priority.
