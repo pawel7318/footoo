@@ -12,6 +12,7 @@ group :development, :test do
 	gem 'rspec-rails'
 	gem 'fuubar'
 	gem 'annotate'
+	gem 'awesome_print'
 end
 
 group :test do
@@ -19,6 +20,7 @@ group :test do
 	gem 'spork-rails'
 	gem 'factory_girl_rails'
 	gem 'faker'
+	gem 'launchy'
 end
 
 # Gems used only for assets and not required
