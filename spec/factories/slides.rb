@@ -6,16 +6,22 @@ FactoryGirl.define do
 
     association :album
     description Faker::Name.name    
-    photo Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_1.jpg", "image/jpeg")
-    # A few other ways to do the upload:
-    #file = File.new(Rails.root.join('spec/fixtures/sample_1.jpg'))
-    #file.rewind
-    #photo ActionDispatch::Http::UploadedFile.new(:tempfile => file, :filename => File.basename(file), :type => 'image/jpeg')
-    # or
-    #photo { fixture_file_upload(Rails.root.join('spec/fixtures/sample_1.jpg'), 'image/jpeg') }
-
+    sequence(:photo) { |n| Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_#{n%2+1}.jpg", "image/jpeg") }
+    
     factory :slide_array do
      photo [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_1.jpg", "image/jpeg")]
    end
- end
+
+    factory :slide_array_multiple do
+      photo [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_1.jpg", "image/jpeg"), Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_2.jpg", "image/jpeg")]
+    end
+
+   factory :slide_without_photo do
+    photo_file_name nil
+    photo_content_type nil
+    photo_file_size 0
+    photo_updated_at nil
+    photo_fingerprint nil
+  end
+end
 end

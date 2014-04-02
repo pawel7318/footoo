@@ -18,6 +18,6 @@ describe Album do
 		Album.create(name: 'Some name')
 
 		album.name = 'Some name'		
-		expect(album).to_not be_valid
+		expect(album).to have(1).error_on(:name)
 	end
 end

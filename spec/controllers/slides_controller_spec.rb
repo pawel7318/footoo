@@ -7,7 +7,11 @@ describe SlidesController do
   let(:slide) { build(:slide) }
 
   describe "GET #index" do
-    before { get :index, album_id: slide.album }    
+    before do
+      slide.save
+      get :index, album_id: slide.album
+    end
+    it { expect(assigns(:slides)).to match_array([slide]) }
     it { expect(response).to render_template :index }
   end
 
@@ -24,6 +28,9 @@ describe SlidesController do
     it { expect(response).to render_template :edit }
   end
 
+  describe "GET #show" do
+    pending
+  end
 
   describe "POST #create" do
     before { post :create, album_id: album.id, slide: attributes_for(:slide_array) }

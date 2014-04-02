@@ -6,8 +6,13 @@ describe AlbumsController do
 
 
   describe "GET #index" do
-    before { get :index }
+    before do 
+      album.save
+      get :index
+    end
+    it { expect(assigns(:albums)).to match_array([album]) }
     it { expect(response).to render_template :index }
+    
   end
 
   describe "GET #new" do
@@ -21,28 +26,28 @@ describe AlbumsController do
   end
 
   describe "POST #create" do
-    before { post :create, album: attributes_for(:album) }
-    it { expect(response).to redirect_to(assigns[:album])}
+    before do
+      @attr = attributes_for(:album)
+      post :create, album: @attr
+    end
+    it { expect(Album.exists?(@attr)).to be_true }
+    it { expect(response).to redirect_to(assigns[:album]) }    
   end
 
   describe "PATCH #update" do
-    before { @album = create(:album) }
-    it do
+    before do
+      @album = create(:album)
       patch :update, id: @album, album: attributes_for(:album, name: 'Updated name')
       @album.reload
-      expect(response).to redirect_to(@album)
     end
+    it { expect(Album.exists?(@album)).to be_true }
+    it { expect(Album.where(name: 'Updated name')).to exist }
+    it { expect(response).to redirect_to(@album) }    
   end
 
   describe "DELETE #destroy" do
-    before do
-      @album = create(:album)
-      expect(Album.exists?(@album)).to be_true
-    end
-    it do
-      delete :destroy, id: @album
-      expect(Album.exists?(@album)).to be_false
-    end
+    before { @album = create(:album) }
+    it { expect{ delete :destroy, id: @album }.to change(Album, :count).by(-1) }
   end
 
 end
