@@ -1,7 +1,7 @@
 == footoo
 
 This project is in early development stage.
-There are two reasons why I create it:
+There are a few reasons why I create it:
 
 * grasp the mess that I have with my large collection of private photos
 * learn Rails at the same time
