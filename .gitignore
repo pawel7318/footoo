@@ -27,6 +27,9 @@
 # uploaded files
 /public/system
 
+# simplecov files
+/public/covered
+
 # Ignore other unneded files.
 doc/
 *.swp

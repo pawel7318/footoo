@@ -21,6 +21,7 @@ group :test do
 	gem 'factory_girl_rails'
 	gem 'faker'
 	gem 'launchy'
+	gem 'simplecov', '~> 0.7.1', :require => false, :group => :test
 end
 
 # Gems used only for assets and not required
