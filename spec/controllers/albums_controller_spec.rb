@@ -109,14 +109,12 @@ describe AlbumsController do
     
     let(:send_delete) { delete :destroy, id: @album }
 
-
     context "success" do
-
       it { expect{ send_delete }.to change(Album, :count).by(-1) }
 
       context do
         before { send_delete }
-        it { expect{ send_delete }.to redirect_to albums_url }
+        it { expect(response).to redirect_to albums_url }
         it_behaves_like "flash_notice"      
       end
     end

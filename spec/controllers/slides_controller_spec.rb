@@ -98,17 +98,6 @@ describe SlidesController do
 
   end
 
-  describe "old DELETE #destroy" do
-    before do
-      @slide = create(:slide)
-      expect(Slide.exists?(@slide)).to be_true
-    end
-    it do
-      delete :destroy, id: @slide
-      expect(Slide.exists?(@slide)).to be_false
-    end
-  end
-
   describe "DELETE #destroy" do
     before do
       @slide = create(:slide)

@@ -3,9 +3,25 @@ require 'spork'
 
 Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
-  require File.expand_path("../../config/environment", __FILE__)
+  require File.expand_path("../../config/environment", __FILE__)  
   require 'rspec/rails'
   require 'rspec/autorun'
+  unless ENV['DRB']
+    require 'simplecov'
+    SimpleCov.start do
+      coverage_dir 'public/coverage'
+      add_filter '/test/'
+      add_filter '/config/'
+      add_filter '/vendor/'
+      add_filter '/spec/'
+
+      add_group 'Controllers', 'app/controllers'
+      add_group 'Models', 'app/models'
+      #add_group 'Helpers', 'app/helpers'
+      #add_group 'Mailers', 'app/mailers'
+    end
+  end
+
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
@@ -41,7 +57,7 @@ Spork.prefork do
     # order dependency and want to debug it, you can fix the order by providing
     # the seed, which is printed after each run.
     # --seed 1234
-    config.order = "random"
+    config.order = "defined"
     # Include the Capybara DSL so that specs in spec/requests still work.
     config.include Capybara::DSL
     config.include FactoryGirl::Syntax::Methods
@@ -55,4 +71,20 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
+  
+  if ENV['DRB']
+    require 'simplecov'
+    SimpleCov.start do
+      coverage_dir 'public/coverage'
+      add_filter '/test/'
+      add_filter '/config/'
+      add_filter '/vendor/'
+      add_filter '/spec/'
+
+      add_group 'Controllers', 'app/controllers'
+      add_group 'Models', 'app/models'
+      #add_group 'Helpers', 'app/helpers'
+      #add_group 'Mailers', 'app/mailers'
+    end
+  end
 end
