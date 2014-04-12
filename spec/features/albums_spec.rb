@@ -4,11 +4,22 @@ feature "Album Pages" do
 
   given(:album) { create(:album) }
 
-  scenario "Create new album" do
+  scenario "Create new album with valid data" do
     visit new_album_path
 
-    fill_in "Name", with: "foo"  
-    expect {click_button "Create Album"}.to change(Album, :count).by(1)
+    @album = build(:album)
+    fill_in "Name", with: @album.name
+    expect {click_button "Create Album"}.to change(Album, :count).by(1)  
+
+  end
+
+  scenario "Create new album with invalid data (failure)" do
+    visit new_album_path
+
+    @album = build(:invalid_album)
+    fill_in "Name", with: @album.name
+    expect {click_button "Create Album"}.to_not change(Album, :count)
+    expect(page).to have_content("Name can't be blank")
 
   end
 
@@ -18,12 +29,23 @@ feature "Album Pages" do
     expect {click_link "Delete"}.to change(Album, :count).by(-1)
   end
 
-  scenario "Edit album" do
-    
-    visit edit_album_path album    
-    fill_in "Name", with: "bar"
-    
-    expect{click_button "Update Album"}.to change(Album.last, :name)
+  scenario "Update album with valid data" do
+
+    visit edit_album_path album
+    @album = build(:album)
+    fill_in "Name", with: @album.name
+
+    expect{click_button "Update Album"}.to change{Album.last.name}    
+  end
+
+  scenario "Update album with invalid data (failure)" do
+
+    visit edit_album_path album
+    @album = build(:invalid_album)
+    fill_in "Name", with: @album.name
+
+    expect{click_button "Update Album"}.to_not change{Album.last.name}
+    expect(page).to have_content("Name can't be blank")
   end
 
 end
