@@ -9,7 +9,8 @@ class TrashController < ApplicationController
 		if @trashed_slide.destroy(force: true)
 			redirect_to trash_index_url, notice: 'Slide was successfully destroyed.'
 		else
-			flash_message :error, @slide.errors.full_messages.join(" ")
+			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
+			redirect_to trash_index_url
 		end
 	end
 
@@ -17,7 +18,8 @@ class TrashController < ApplicationController
 		if Slide.only_deleted.destroy_all!
 			redirect_to root_path, notice: 'All slides from Trash was successfully destoyed.'
 		else
-			flash_message :error, @slide.errors.full_messages.join(" ")
+			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
+			redirect_to trash_index_url
 		end		
 	end
 
@@ -25,7 +27,8 @@ class TrashController < ApplicationController
 		if @trashed_slide.restore
 			redirect_to trash_index_url, notice: 'Slide was successfully restored.'
 		else
-			flash_message :error, @slide.errors.full_messages.join(" ")
+			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
+			redirect_to trash_index_url
 		end
 	end
 
@@ -33,7 +36,8 @@ class TrashController < ApplicationController
 		if Slide.only_deleted.restore_all
 			redirect_to root_path, notice: 'All slides from Trash was successfuly restored.'
 		else
-			flash_message :error, @slide.errors.full_messages.join(" ")
+			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
+			redirect_to trash_index_url
 		end		
 	end
 
