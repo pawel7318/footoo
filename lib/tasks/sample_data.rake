@@ -4,7 +4,7 @@ namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
 
-		@samples = Dir[Rails.root.join "spec/fixtures/*.jpg"]
+		@samples = Dir[Rails.root.join "spec/fixtures/sample_*.jpg"]
  
 
 		4.times do |n|
