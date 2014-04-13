@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320145907) do
+ActiveRecord::Schema.define(version: 20140326132945) do
 
   create_table "albums", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "albums", ["name"], name: "index_albums_on_name", unique: true
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
