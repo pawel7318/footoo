@@ -22,6 +22,7 @@ group :test do
 	gem 'faker'
 	gem 'launchy'
 	gem 'simplecov', '~> 0.7.1', :require => false, :group => :test
+	gem 'selenium-webdriver'
 end
 
 # Gems used only for assets and not required

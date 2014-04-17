@@ -4,25 +4,13 @@ describe AlbumsController do
 
   let(:album) { create(:album) }
 
-  shared_examples "flash_notice" do
-    it { expect(flash[:notice]).to_not be_nil }    
-    it { expect(flash[:error]).to be_nil }    
-  end
-
-  shared_examples "flash_error" do
-    it { expect(flash[:notice]).to be_nil }    
-    it { expect(flash[:error]).to_not be_nil }    
-  end
-
-
   describe "GET #index" do
-    before do 
-      album.save
+    before do
+      @album = album
       get :index
     end
-    it { expect(assigns(:albums)).to match_array([album]) }
-    it { expect(response).to render_template :index }
-    
+    it { expect(assigns(:albums)).to match_array([@album]) }
+    it { expect(response).to render_template :index }    
   end
 
   describe "GET #new" do
@@ -38,18 +26,13 @@ describe AlbumsController do
   describe "POST #create" do
     before { @attr = attributes_for(:album) }
     
-
     let (:send_post) { post :create, album: @attr }
 
     context "success" do
-      it { expect{ send_post }.to change(Album, :count).by(1) }
-      
-      context do
-        before do
-          send_post
-        end
-        it { expect(response).to redirect_to(assigns[:album]) }   
-        it_behaves_like "flash_notice"
+      it do
+        expect{ send_post }.to change(Album, :count).by(1)
+        expect(response).to redirect_to(assigns[:album])
+        has_flash_notice
       end
     end
 
@@ -58,14 +41,10 @@ describe AlbumsController do
         Album.any_instance.stub(:save).and_return(false)
       end
 
-      it { expect{ send_post }.to_not change(Album, :count) }
-      context do
-
-        before do
-          send_post
-        end
-        it { expect(response).to render_template :new }
-        it_behaves_like "flash_error"
+      it do
+        expect{send_post}.to_not change(Album, :count)        
+        expect(response).to render_template :new
+        has_flash_error
       end
     end
   end
@@ -79,13 +58,10 @@ describe AlbumsController do
     end
 
     context "success" do
-
-      it { expect{ send_patch}.to change(@album, :name).from('foo').to('bar') }
-
-      context do
-        before { send_patch }
-         it { expect(response).to redirect_to @album }
-         it_behaves_like "flash_notice"
+      it do
+        expect{send_patch}.to change(@album, :name).from('foo').to('bar')      
+        expect(response).to redirect_to @album
+        has_flash_notice
       end
     end
 
@@ -94,12 +70,11 @@ describe AlbumsController do
         Album.any_instance.stub(:update).and_return(false)
       end
 
-      it { expect{ send_patch }.to_not change(@album, :name) }
-      context do
-        before { send_patch }
-        it { expect(response).to render_template :edit }
-        it_behaves_like "flash_error"
-      end
+      it do
+        expect{send_patch}.to_not change(@album, :name)
+        expect(response).to render_template :edit
+        has_flash_error
+      end      
     end
   end
 
@@ -110,12 +85,10 @@ describe AlbumsController do
     let(:send_delete) { delete :destroy, id: @album }
 
     context "success" do
-      it { expect{ send_delete }.to change(Album, :count).by(-1) }
-
-      context do
-        before { send_delete }
-        it { expect(response).to redirect_to albums_url }
-        it_behaves_like "flash_notice"      
+      it do
+        expect{ send_delete }.to change(Album, :count).by(-1)
+        expect(response).to redirect_to albums_url
+        has_flash_notice
       end
     end
 
@@ -123,13 +96,10 @@ describe AlbumsController do
       before do
         Album.any_instance.stub(:destroy).and_return(false)
       end
-      it { expect{ send_delete }.to_not change(Album, :count) }
-
-      context do
-        before do
-          send_delete
-        end
-        it_behaves_like "flash_error"
+      
+      it do
+        expect{ send_delete }.to_not change(Album, :count)
+        has_flash_error
       end
     end
   end

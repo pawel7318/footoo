@@ -28,7 +28,10 @@
 /public/system
 
 # simplecov files
-/public/covered
+/public/coverage
+
+# assets
+/public/assets
 
 # Ignore other unneded files.
 doc/
