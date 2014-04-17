@@ -4,7 +4,8 @@ Footoo::Application.routes.draw do
   root to: 'albums#index'
 
   resources :albums, except: :show do
-    resources :slides, shallow: true
+    match 'slides/(:ids)', to: 'slides#destroy', via: :delete, as: 'slides_multi'
+    resources :slides, shallow: true, except: :destroy
   end
 
   get 'albums/:album_id', to: 'slides#index'

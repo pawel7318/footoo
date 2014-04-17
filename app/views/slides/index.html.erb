@@ -2,9 +2,16 @@
 <div class="page-header">
   <h1><%= @album.name %> <%=t '.title', :default => model_class.model_name.human.pluralize.titleize.downcase %></h1>
 </div>
+
+<%= form_for :album_slides_multi, method: :delete, id: 'multi-select' do |f| %>
+<%= f.submit "Delete selected",
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger'
+%>
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>&nbsp;</th>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:thumbnail) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
@@ -20,27 +27,29 @@
   <tbody>
     <% @slides.each do |slide| %>
     <tr>
+      <td><%= check_box_tag "ids[]", slide.id, false, class: "multi-select", id: "slide_select_#{slide.id}" %></td>
       <td><%= link_to slide.id, slide_path(slide.id) %></td>
-      <td><%= image_tag slide.photo.url(:thumb) %></th>
-        <td><%= slide.description %></td>
-        <td><%= slide.photo_file_name %></td>
-        <td><%= slide.photo_content_type %></td>
-        <td><%= slide.photo_file_size %></td>
-        <td><%= slide.photo_updated_at %></td>
-        <td><%= slide.photo_fingerprint %></td>
-        <td><%=l slide.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-          edit_slide_path(slide), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-          slide_path(slide),
-          :method => :delete,
-          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-          :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= render :partial => 'albums/show_buttons' %>
-  
+      <td><%= image_tag slide.photo.url(:thumb) %></td>
+      <td><%= slide.description %></td>
+      <td><%= slide.photo_file_name %></td>
+      <td><%= slide.photo_content_type %></td>
+      <td><%= slide.photo_file_size %></td>
+      <td><%= slide.photo_updated_at %></td>
+      <td><%= slide.photo_fingerprint %></td>
+      <td><%=l slide.created_at %></td>
+      <td>
+        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+        edit_slide_path(slide), :class => 'btn btn-mini' %>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+        album_slides_multi_path(slide.album.id, slide.id),
+        :method => :delete,
+        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+        :class => 'btn btn-mini btn-danger' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<%= render :partial => 'albums/show_buttons' %>
+

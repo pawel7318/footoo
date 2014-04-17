@@ -1,8 +1,8 @@
 class SlidesController < ApplicationController
-  before_action :set_slide, only: [:show, :destroy]
+  before_action :set_slide, only: [:show]
   before_action :set_album, only: [:new, :index, :create]
-  before_action :set_slide_and_album, only: [:edit, :update, :destroy]
-
+  before_action :set_slide_and_album, only: [:edit, :update]
+  before_action :set_for_destroy, only: [:destroy]
   # GET /slides
   def index
     @slides = @album.slides.load.to_a
@@ -41,7 +41,7 @@ class SlidesController < ApplicationController
   # PATCH/PUT /slides/1
   def update
     if @slide.update(slide_params)
-      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully updated.'
+      redirect_to album_slides_url(@album), notice: 'Slide was successfully updated.'
     else
       flash_message :error, @slide.errors.full_messages.join(" ")
       render action: 'edit'
@@ -50,11 +50,16 @@ class SlidesController < ApplicationController
 
   # DELETE /slides/1
   def destroy
-    if @slide.destroy
-      redirect_to album_slides_url(@album, @slide), notice: 'Slide was successfully trashed.'
-    else
-      flash_message :error, @slide.errors.full_messages.join(" ")
+    @destroyed_slides = []
+    @ids.each do |id|
+      begin          
+        @destroyed_slides << Slide.destroy(id)                
+      rescue ActiveRecord::RecordNotFound          
+        flash_message :error, "Cannot trash #{id} slide."        
+      end
     end
+    flash_message :notice, ActionController::Base.helpers.pluralize(@destroyed_slides.length, 'slide') + ' was successfully trashed.' if (@destroyed_slides.length > 0)
+    redirect_to album_slides_url(@album)
   end
 
   private
@@ -63,10 +68,15 @@ class SlidesController < ApplicationController
       @album = Album.find(params[:album_id])
     end
 
+    def set_for_destroy      
+      @ids = params.require(:ids)
+      @ids = [@ids] unless @ids.kind_of?(Array)
+      @album = params.require(:album_id)      
+    end
+
     def set_slide_and_album
       @slide = Slide.find(params[:id])
       @album = @slide.album
-      @album_id = @slide.album_id
     end
 
     def set_slide
@@ -75,13 +85,13 @@ class SlidesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def slide_params
-      params.require(:slide).permit(:description, :photo)
+      params.require(:slide).permit(:description)
     end
 
     def slide_new_params
       params.require(:album_id)
       params[:slide][:photo] ||= []
       params.require(:slide).permit(:description, photo: [])
-      
     end
   end
+

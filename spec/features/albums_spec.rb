@@ -12,7 +12,7 @@ feature "Album Pages" do
     expect {click_button "Create Album"}.to change(Album, :count).by(1)  
   end
 
-  scenario "Create new album with invalid data (failure)" do
+  scenario "Create new album with invalid data (failure expected)" do
     visit new_album_path
 
     @album = build(:invalid_album)
@@ -35,7 +35,7 @@ feature "Album Pages" do
     expect{click_button "Update Album"}.to change{Album.last.name}    
   end
 
-  scenario "Update album with invalid data (failure)" do
+  scenario "Update album with invalid data (failure expected)" do
     visit edit_album_path album
     @album = build(:invalid_album)
     fill_in "Name", with: @album.name
@@ -45,3 +45,4 @@ feature "Album Pages" do
   end
 
 end
+

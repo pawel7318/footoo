@@ -42,11 +42,10 @@ describe SlidesController do
     let(:send_post) { post :create, album_id: album.id, slide: attributes_for(:slide_array) }
     
     context "success" do
-      it { expect { send_post }.to change(Slide, :count).by(1) } 
-      context do
-        before { send_post }
-        it { expect(response).to redirect_to album_slides_url }
-        it { expect(flash[:notice]).to_not be_nil }
+      it do
+        expect{send_post}.to change(Slide, :count).by(1)      
+        expect(response).to redirect_to album_slides_url
+        has_flash_notice
       end
     end
 
@@ -56,11 +55,10 @@ describe SlidesController do
         Slide.any_instance.stub(:save).and_return(false)
       end
       
-      it { expect{ send_post }.to_not change(Slide, :count) }
-      context do
-        before { send_post }
-        it { expect(response).to redirect_to album_slides_url }
-        it { expect(flash[:error]).to_not be_nil }
+      it do
+        expect{send_post}.to_not change(Slide, :count)      
+        expect(response).to redirect_to album_slides_url
+        has_flash_error
       end
     end    
   end
@@ -74,12 +72,10 @@ describe SlidesController do
     end
 
     context "success" do
-      it { expect{ send_patch}.to change(@slide, :description).from('foo').to('bar') }
-
-      context do
-        before { send_patch }
-        it { expect(response).to redirect_to album_slides_url(@slide.album_id) }
-        it { expect(flash[:notice]).to_not be_nil }
+      it do
+        expect{send_patch}.to change(@slide, :description).from('foo').to('bar')    
+        expect(response).to redirect_to album_slides_url(@slide.album_id)
+        has_flash_notice
       end
     end
 
@@ -88,42 +84,67 @@ describe SlidesController do
         Slide.any_instance.stub(:update).and_return(false)
       end
 
-      it { expect{ send_patch }.to_not change(@slide, :description) }
-      context do
-        before { send_patch }
-        it { expect(response).to render_template :edit }
-        it { expect(flash[:error]).to_not be_nil }
+      it do
+        expect{send_patch}.to_not change(@slide, :description)      
+        expect(response).to render_template :edit
+        has_flash_error
       end
     end
-
   end
 
   describe "DELETE #destroy" do
     before do
-      @slide = create(:slide)
+      @slide1 = create(:slide)
+      @slide2 = create(:slide)      
     end
 
-    let(:send_delete) { delete :destroy, id: @slide }
+    let(:send_delete) { delete :destroy, album_id: @slide1.album, ids: @ids }
 
-    context "success" do
-      it { expect{ send_delete }.to change(Slide, :count).by(-1) }
 
-      context do
-        before { send_delete }
-        it { expect(response).to redirect_to album_slides_url(@slide.album_id) }
-        it { expect(flash[:notice]).to_not be_nil }
+    context do
+      it "one of two" do
+        @ids = []
+        @ids << @slide1.id
+
+        expect{send_delete}.to change(Slide, :count).by(-1)
+        expect(flash[:error]).to be_nil
+        expect(flash[:notice]).to_not be_nil
       end
     end
 
-    context "failure" do
-      before do
-        Slide.any_instance.stub(:destroy).and_return(false)
-      end
-      it { expect{ send_delete }.to_not change(Slide, :count) }
+    context do
+      it "two of two" do
+        @ids = []
+        @ids << @slide1.id
+        @ids << @slide2.id  
 
-      context do
-        before { send_delete }
-        it { expect(flash[:error]).to_not be_nil }
+        expect{send_delete}.to change(Slide, :count).by(-2)
+        expect(flash[:error]).to be_nil
+        expect(flash[:notice]).to_not be_nil      
+      end
+    end
+
+    context do
+      it "none" do
+        @ids = []
+        @ids << 7
+        @ids << 8
+
+        expect{send_delete}.to_not change(Slide, :count)
+        expect(flash[:error]).to_not be_nil
+        expect(flash[:notice]).to be_nil      
+      end
+    end
+
+    context do
+      it "some" do
+        @ids = []
+        @ids << 9
+        @ids << @slide1.id
+
+        expect{send_delete}.to change(Slide, :count).by(-1)
+        expect(flash[:error]).to_not be_nil
+        expect(flash[:notice]).to_not be_nil      
       end
     end
   end

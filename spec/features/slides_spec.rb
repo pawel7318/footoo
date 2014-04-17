@@ -73,7 +73,34 @@ feature "Slide Pages" do
     expect{click_button "Update Slide"}.to change{Slide.last.description}
   end
 
-  scenario "Delete slide", pending: "JS popup clicking requires Selenium" do
+  scenario "Delete slide" do
+    visit album_slides_url slide.album
+    expect{page.find('.btn.btn-mini.btn-danger').click}.to change(Slide, :count).by(-1)
   end
+
+  scenario "Delete selected slide (one)" do
+    @album = album
+    @slide1 = create(:slide, album: @album)
+    @slide2 = create(:slide, album: @album)
+
+    visit album_slides_url @album
+    
+    page.check("slide_select_#{@slide1.id}")
+    expect{click_button('Delete selected')}.to change(Slide, :count).by(-1)
+  end
+
+  scenario "Delete selected slides (many)" do
+    @album = album
+    @slide1 = create(:slide, album: @album)
+    @slide2 = create(:slide, album: @album)
+
+    visit album_slides_url @album
+    
+    page.check("slide_select_#{@slide1.id}")
+    page.check("slide_select_#{@slide2.id}")
+    expect{click_button('Delete selected')}.to change(Slide, :count).by(-2)
+  end
+
+  scenario "Show slide"
 
 end

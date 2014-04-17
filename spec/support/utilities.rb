@@ -4,10 +4,12 @@ def create_album(name)
 	click_button "Create Album"
 end
 
-def create_album_by_factory(name)
-	FactoryGirl.create(:album, name: name)
+def has_flash_error
+  expect(flash[:notice]).to be_nil    
+  expect(flash[:error]).to_not be_nil
 end
 
-def create_slide(album)
-	FactoryGirl.create(:slide, album: album)
+def has_flash_notice
+  expect(flash[:notice]).to_not be_nil    
+  expect(flash[:error]).to be_nil
 end
