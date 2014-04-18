@@ -1,1 +1,3 @@
 $('<%= @destroyed_slides.map { |slide| "#slide_" + slide.id.to_s }.join(', ') %>').remove();
+$('#flash_messages').append('<%= j render('layouts/flash') %>')
+<% flash.discard %>

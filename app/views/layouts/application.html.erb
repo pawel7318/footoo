@@ -8,14 +8,16 @@
 </head>
 <body class="container">
 
-<%= render 'layouts/navbar' %>
-<%= render 'layouts/flash' %>
+  <%= render 'layouts/navbar' %>
+  <div id="flash_messages">
+    <%= render 'layouts/flash' %>
+  </div>
 
-<%= yield %>
+  <%= yield %>
 
-<footer class="navbar">
-<%= debug(params) if Rails.env.development? %>
-</footer>
+  <footer class="navbar">
+    <%= debug(params) if Rails.env.development? %>
+  </footer>
 
 </body>
 </html>
