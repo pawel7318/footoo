@@ -3,7 +3,7 @@
   <h1><%= @album.name %> <%=t '.title', :default => model_class.model_name.human.pluralize.titleize.downcase %></h1>
 </div>
 
-<%= form_for :album_slides_multi, method: :delete, id: 'multi-select' do |f| %>
+<%= form_for :album_slides_multi, method: :delete, id: 'multi-select', remote: true do |f| %>
 <%= f.submit "Delete selected",
   :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
   :class => 'btn btn-danger'
@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     <% @slides.each do |slide| %>
-    <tr>
+    <tr id="slide_<%= slide.id %>">
       <td><%= check_box_tag "ids[]", slide.id, false, class: "multi-select", id: "slide_select_#{slide.id}" %></td>
       <td><%= link_to slide.id, slide_path(slide.id) %></td>
       <td><%= image_tag slide.photo.url(:thumb) %></td>
@@ -44,7 +44,8 @@
         album_slides_multi_path(slide.album.id, slide.id),
         :method => :delete,
         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-        :class => 'btn btn-mini btn-danger' %>
+        :class => 'btn btn-mini btn-danger',
+        :remote => true %>
       </td>
     </tr>
     <% end %>
