@@ -59,7 +59,10 @@ class SlidesController < ApplicationController
       end
     end
     flash_message :notice, ActionController::Base.helpers.pluralize(@destroyed_slides.length, 'slide') + ' was successfully trashed.' if (@destroyed_slides.length > 0)
-    redirect_to album_slides_url(@album)
+    respond_to do |format|
+      format.html { redirect_to album_slides_url(@album) }
+      format.js
+    end    
   end
 
   private
