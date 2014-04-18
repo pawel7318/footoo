@@ -20,7 +20,7 @@
   </thead>
   <tbody>
     <% @trashed_slides.each do |trashed_slide| %>
-    <tr>
+    <tr id="slide_<%= trashed_slide.id %>">
       <td><%= link_to trashed_slide.id, trash_path(trashed_slide.id) %></td>
       <td><%= image_tag trashed_slide.photo.url(:thumb) %></td>
       <td><%= trashed_slide.album.name %></td>
@@ -35,12 +35,14 @@
         <%= link_to t('.restore', :default => t("helpers.links.restore")),
         trash_path(trashed_slide),
         :method => :patch,
-        :class => 'btn btn-mini' %>
+        :class => 'btn btn-mini',
+        :remote => true %>
         <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
         trash_path(trashed_slide),
         :method => :delete,
         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-        :class => 'btn btn-mini btn-danger' %>
+        :class => 'btn btn-mini btn-danger',
+        :remote => true %>
       </td>
     </tr>
     <% end %>

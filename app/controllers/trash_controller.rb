@@ -7,7 +7,10 @@ class TrashController < ApplicationController
 
 	def destroy
 		if @trashed_slide.destroy(force: true)
-			redirect_to trash_index_url, notice: 'Slide was successfully destroyed.'
+			respond_to do |format|
+				format.html { redirect_to trash_index_url, notice: 'Slide was successfully destroyed.' }
+				format.js
+			end			
 		else
 			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
 			redirect_to trash_index_url
@@ -25,7 +28,10 @@ class TrashController < ApplicationController
 
 	def restore
 		if @trashed_slide.restore
-			redirect_to trash_index_url, notice: 'Slide was successfully restored.'
+			respond_to do |format|
+      	format.html { redirect_to trash_index_url, notice: 'Slide was successfully restored.' }
+      	format.js
+      end
 		else
 			flash_message :error, @trashed_slide.errors.full_messages.join(" ")
 			redirect_to trash_index_url

@@ -43,7 +43,6 @@
         <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
         album_slides_multi_path(slide.album.id, slide.id),
         :method => :delete,
-        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
         :class => 'btn btn-mini btn-danger',
         :remote => true %>
       </td>
