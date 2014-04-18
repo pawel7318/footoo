@@ -42,11 +42,14 @@ class AlbumsController < ApplicationController
 
   # DELETE /albums/1
   def destroy
-    if @album.destroy
-      redirect_to albums_url, notice: 'Album was successfully destroyed.'
+    if @album.destroy      
+      respond_to do |format|
+        format.html { redirect_to albums_url, notice: 'Album was successfully destroyed.' }
+        format.js
+      end
     else
       flash_message :error, @album.errors.full_messages.join(" ")
-      redirect_to albums_url
+      redirect_to albums_url      
     end
   end
 

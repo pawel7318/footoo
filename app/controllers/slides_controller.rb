@@ -62,7 +62,7 @@ class SlidesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to album_slides_url(@album) }
       format.js
-    end    
+    end     
   end
 
   private
