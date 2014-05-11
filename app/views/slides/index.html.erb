@@ -1,13 +1,37 @@
+<%= javascript_tag do -%>
+$(document).ready(function(){
+    clone_checkboxes_values('slide_select_form', 'slide_select', 'slide_move');
+    clone_checkboxes_values('slide_select_form', 'slide_select', 'slide_delete');
+    $('#move_selected_button').click(function() {show_dialog_move_slides_to_album()});
+});
+<% end -%>
+
 <%- model_class = Slide -%>
 <div class="page-header">
   <h1><%= @album.name %> <%=t '.title', :default => model_class.model_name.human.pluralize.titleize.downcase %></h1>
 </div>
 
-<%= form_for :album_slides_multi, method: :delete, id: 'multi-select', remote: true do |f| %>
-<%= f.submit "Delete selected",
-  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-  :class => 'btn btn-danger'
-%>
+<div id="dialog-move-slides-to-album" title="Move selected slides to:" class="hide">
+  <%= form_for :multi_slides_move, method: :patch, html: { id: 'form_move' }, remote: true do |f| %>
+    <% @slides.each do |slide| %>
+      <%= check_box_tag "ids[]", slide.id, false, class: "multi-select, hide", id: "slide_move_#{slide.id}" %>
+    <% end %>
+    <%= select_tag "new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
+  <% end %>
+</div>
+
+<%= button_tag "Move selected", { :type => 'button', :id => 'move_selected_button', :class => 'btn' } %>
+
+<%= form_for :multi_slides_delete, method: :delete, html: { id: 'form_delete' }, remote: true do |f| %>
+  <%= f.submit "Delete selected", :class => 'btn btn-danger' %>
+    <% @slides.each do |slide| %>
+      <%= check_box_tag "ids[]", slide.id, false, class: "multi-select, hide", id: "slide_delete_#{slide.id}" %>
+    <% end %>
+<% end %>
+
+<%= form_tag_html :id=> 'slide_select_form' %>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -41,7 +65,7 @@
         <%= link_to t('.edit', :default => t("helpers.links.edit")),
         edit_slide_path(slide), :class => 'btn btn-mini' %>
         <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-        album_slides_multi_path(slide.album.id, slide.id),
+        multi_slides_delete_path(slide.album.id, slide.id),
         :method => :delete,
         :class => 'btn btn-mini btn-danger',
         :remote => true %>
@@ -50,6 +74,7 @@
     <% end %>
   </tbody>
 </table>
-<% end %>
+</form>
+
 <%= render :partial => 'albums/show_buttons' %>
 

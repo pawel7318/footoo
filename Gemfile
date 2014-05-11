@@ -13,6 +13,8 @@ group :development, :test do
 	gem 'fuubar'
 	gem 'annotate'
 	gem 'awesome_print'
+	gem 'pry'
+	gem 'pry-debugger'
 end
 
 group :test do
@@ -23,6 +25,7 @@ group :test do
 	gem 'launchy'
 	gem 'simplecov', '~> 0.7.1', :require => false, :group => :test
 	gem 'selenium-webdriver'
+	gem 'database_cleaner'
 end
 
 # Gems used only for assets and not required
@@ -34,11 +37,12 @@ gem 'coffee-rails'
 gem 'uglifier'
 gem 'less-rails'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'twitter-bootstrap-rails'
 gem 'sass-rails'
 gem 'paperclip'
 gem 'exifr'
-gem 'jquery-fileupload-rails'
+gem 'jquery-fileupload-rails' # remove it ?
 gem 'activerecord-import'
 gem 'paranoid2'
 gem 'delayed_job'

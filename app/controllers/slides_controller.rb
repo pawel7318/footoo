@@ -3,9 +3,11 @@ class SlidesController < ApplicationController
   before_action :set_album, only: [:new, :index, :create]
   before_action :set_slide_and_album, only: [:edit, :update]
   before_action :set_for_destroy, only: [:destroy]
+  before_action :set_for_move, only: [:move]
   # GET /slides
   def index
     @slides = @album.slides.load.to_a
+    @other_albums = Album.where('id != :id', id: @album.id)
   end
 
   # GET /slides/1
@@ -35,13 +37,13 @@ class SlidesController < ApplicationController
         flash_message :error, p.original_filename + ' has some problems: ' + @slide.errors.full_messages.join(' ')
       end      
     end
-    redirect_to album_slides_url  
+    redirect_to album_slides_path  
   end
   
   # PATCH/PUT /slides/1
   def update
     if @slide.update(slide_params)
-      redirect_to album_slides_url(@album), notice: 'Slide was successfully updated.'
+      redirect_to album_slides_path(@album), notice: 'Slide was successfully updated.'
     else
       flash_message :error, @slide.errors.full_messages.join(" ")
       render action: 'edit'
@@ -60,7 +62,27 @@ class SlidesController < ApplicationController
     end
     flash_message :notice, ActionController::Base.helpers.pluralize(@destroyed_slides.length, 'slide') + ' was successfully trashed.' if (@destroyed_slides.length > 0)
     respond_to do |format|
-      format.html { redirect_to album_slides_url(@album) }
+      format.html { redirect_to album_slides_path(@album) }
+      format.js
+    end     
+  end
+
+  def move
+    @moved_slides = []
+    @ids.each do |id|
+      begin
+        @slide = Slide.find(id.to_i)
+        @slide.album_id = @new_album_id
+        @slide.save
+        @moved_slides << @slide
+      rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
+        flash_message :error, "Cannot move #{id} slide."
+      end
+    end
+
+    #flash_message :notice, ActionController::Base.helpers.pluralize(@destroyed_slides.length, 'slide') + ' was .' if (@moved_slides.length > 0)
+    respond_to do |format|
+      #format.html { redirect_to album_slides_path(@album) }
       format.js
     end     
   end
@@ -75,6 +97,12 @@ class SlidesController < ApplicationController
       @ids = params.require(:ids)
       @ids = [@ids] unless @ids.kind_of?(Array)
       @album = params.require(:album_id)      
+    end
+
+    def set_for_move
+      @ids = params.require(:ids)
+      @ids = [@ids] unless @ids.kind_of?(Array)
+      @new_album_id = params.require(:new_album_id)
     end
 
     def set_slide_and_album

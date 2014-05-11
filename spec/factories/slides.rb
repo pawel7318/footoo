@@ -4,7 +4,7 @@ FactoryGirl.define do
     
     association :album
     description { Faker::Name.name }
-    sequence(:photo) { |n| Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_#{n%2+1}.jpg", "image/jpeg") }
+    sequence(:photo) { |n| Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_#{n%3+1}.jpg", "image/jpeg") }
     
     factory :slide_array do
      photo [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/sample_1.jpg", "image/jpeg")]

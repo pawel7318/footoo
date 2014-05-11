@@ -3,9 +3,11 @@ Footoo::Application.routes.draw do
 
   root to: 'albums#index'
 
+  match 'albums/:album_id/slides/(:ids)', to: 'slides#destroy', via: :delete, as: :multi_slides_delete
+  match 'albums/:album_id/slides/(:ids)', to: 'slides#move', via: [:patch, :put], as: :multi_slides_move
+
   resources :albums, except: :show do
-    match 'slides/(:ids)', to: 'slides#destroy', via: :delete, as: 'slides_multi'
-    resources :slides, shallow: true, except: :destroy
+    resources :slides, shallow: true, except: [:destroy, :patch, :put]            
   end
 
   get 'albums/:album_id', to: 'slides#index'

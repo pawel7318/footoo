@@ -1,0 +1,6 @@
+$('<%= @moved_slides.map { |slide| "#slide_" + slide.id.to_s }.join(', ') %>').remove();
+$('<%= @moved_slides.map { |slide| "#slide_move_" + slide.id.to_s }.join(', ') %>').remove();
+$('<%= @moved_slides.map { |slide| "#slide_delete_" + slide.id.to_s }.join(', ') %>').remove();
+$('#dialog-move-slides-to-album').dialog("close");
+$('#flash_messages').append('<%= j render('layouts/flash') %>')
+<% flash.discard %>

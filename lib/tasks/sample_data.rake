@@ -7,7 +7,7 @@ namespace :db do
 		@samples = Dir[Rails.root.join "spec/fixtures/sample_*.jpg"]
  
 
-		4.times do |n|
+		3.times do |n|
 			name = Faker::Commerce.product_name
 			@album = Album.create!(name: name)
 			
