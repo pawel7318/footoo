@@ -50,6 +50,7 @@ gem 'delayed_job_active_record'
 gem 'delayed_paperclip'
 gem 'daemons'
 gem 'delayed_job_web'
+gem 'devise'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', :platform => :ruby

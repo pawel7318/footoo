@@ -1,6 +1,7 @@
 Footoo::Application.routes.draw do
 
 
+  devise_for :users, path_names: { sign_in: "login", sign_out: "logout"}
   root to: 'albums#index'
 
   match 'albums/:album_id/slides/(:ids)', to: 'slides#destroy', via: :delete, as: :multi_slides_delete
