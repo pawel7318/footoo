@@ -90,7 +90,7 @@ class SlidesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_album
-      @album = Album.find(params[:album_id])
+      @album = Album.for_user(current_user)l.find(params[:album_id])
     end
 
     def set_for_destroy      

@@ -1,18 +1,15 @@
 class AlbumsController < ApplicationController
-  before_action :set_album, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_album, only: [:edit, :update, :destroy]
 
   # GET /albums
   def index
-    @albums = Album.all
-  end
-
-  # GET /albums/1
-  def show
+    @albums = Album.for_user(current_user)
   end
 
   # GET /albums/new
   def new
-    @album = Album.new
+    @album = Album.for_user(current_user).new
   end
 
   # GET /albums/1/edit
@@ -21,7 +18,7 @@ class AlbumsController < ApplicationController
 
   # POST /albums
   def create
-    @album = Album.new(album_params)
+    @album = Album.for_user(current_user).new(album_params)
 
     if @album.save
       redirect_to @album, notice: 'Album was successfully created.'
@@ -32,7 +29,7 @@ class AlbumsController < ApplicationController
   end
   # /PUT /albums/1
   def update
-    if @album.update(album_params)
+    if @album.for_user(current_user).update(album_params)
       redirect_to @album, notice: 'Album was successfully updated.'
     else
       flash_message :error, @album.errors.full_messages.join(" ")
@@ -56,7 +53,7 @@ class AlbumsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_album
-      @album = Album.find(params[:id])
+      @album = Album.find(params[:id]).for_user(current_user)
     end
 
     # Only allow a trusted parameter "white list" through.
