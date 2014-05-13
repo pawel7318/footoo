@@ -8,7 +8,7 @@ gem 'rails', '4.0.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-	gem 'sqlite3'
+	gem 'pg'
 	gem 'rspec-rails'
 	gem 'fuubar'
 	gem 'annotate'
