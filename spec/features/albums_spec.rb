@@ -2,7 +2,12 @@ require 'spec_helper'
 
 feature "Album Pages" do
 
+  given(:user) { create(:user) }
   given(:album) { create(:album) }
+
+  around :each do
+    login_and_switch_schema user
+  end
 
   scenario "Create new album with valid data" do
     visit new_album_path
@@ -22,7 +27,8 @@ feature "Album Pages" do
   end
 
   scenario "Delete album" do
-    visit album_path album
+    @album = create(:album, user: @user)    
+    visit album_path @album
     
     expect {click_link "Delete"}.to change(Album, :count).by(-1)
   end

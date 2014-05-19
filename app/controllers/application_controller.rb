@@ -11,4 +11,8 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :email
   end
+
+  def scope_tenant
+    Apartment::Database.switch(current_user.username)
+  end
 end

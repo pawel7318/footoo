@@ -5,6 +5,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates_presence_of :username
+  validates_presence_of :username, exclusion: %w{footoo, admin, root}, :format => { :with => /\A[a-zA-Z]+\z/,
+    :message => "Only letters allowed" }
   validates_presence_of :email
+
+  after_create :create_schema
+
+  private
+
+  def create_schema    
+    Apartment::Database.create(self.username)
+  end  
 end

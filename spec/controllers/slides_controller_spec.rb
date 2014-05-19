@@ -3,9 +3,14 @@ require 'rack/test'
 
 describe SlidesController do
 
+  let(:user) { create(:user) }
   let(:album) { create(:album) }
   let(:slide) { build(:slide) }
   let(:valid_attributes) { attributes_for(:slide) }
+
+  around :each do
+    login_and_switch_schema user
+  end
 
   describe "GET #index" do
     before do

@@ -2,7 +2,12 @@ require 'spec_helper'
 
 describe AlbumsController do
 
+  let(:user) { create(:user) }
   let(:album) { create(:album) }
+
+  around do
+    login_and_switch_schema user
+  end
 
   describe "GET #index" do
     before do

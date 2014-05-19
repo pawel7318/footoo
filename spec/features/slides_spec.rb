@@ -2,8 +2,13 @@ require 'spec_helper'
 
 feature "Slide Pages" do
 
+  given(:user) { create(:user) }
   given(:album) { create :album }
   given(:slide) { create :slide }
+
+  around :each do
+    login_and_switch_schema user
+  end
 
   scenario "Create one slide" do
     visit new_album_slide_path album

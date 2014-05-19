@@ -61,6 +61,7 @@ Spork.prefork do
     # Include the Capybara DSL so that specs in spec/requests still work.
     config.include Capybara::DSL
     config.include FactoryGirl::Syntax::Methods
+    config.include Warden::Test::Helpers
     # config.include Rack::Test::Methods, type: :controller
     # Disable the old-style object.should syntax.
     config.expect_with :rspec do |c|
