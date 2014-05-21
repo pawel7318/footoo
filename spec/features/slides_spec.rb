@@ -2,12 +2,15 @@ require 'spec_helper'
 
 feature "Slide Pages" do
 
-  given(:user) { create(:user) }
+  given(:user) { create :user }
   given(:album) { create :album }
   given(:slide) { create :slide }
 
-  around :each do
+  around :each do |scenario|
     login_and_switch_schema user
+    scenario.run
+    destroy_users_schema user
+    destroy_user user
   end
 
   scenario "Create one slide" do
@@ -33,7 +36,7 @@ feature "Slide Pages" do
     expect {
       attach_file 'slide_photo', "#{Rails.root}/spec/fixtures/sample_1.jpg"
       click_button "Create Slide"
-      }.to_not change(Slide, :count)
+    }.to_not change(Slide, :count)
   end
 
   scenario "Create same slide twice in two different albums (failure expected)" do
@@ -69,7 +72,7 @@ feature "Slide Pages" do
     expect{click_button "Create Slide"}.to_not change(Slide, :count)
     expect(page).to have_content "Photo content type is invalid"
   end
-  
+
   scenario "Update slide's description" do
     visit edit_slide_path slide
     @slide = build(:slide)
@@ -82,8 +85,8 @@ feature "Slide Pages" do
     visit album_slides_path slide.album
     expect{page.find('.btn.btn-mini.btn-danger').click}.to change(Slide, :count).by(-1)
   end
-
-  scenario "Delete selected slide (one)", js: true, resynchronize: true do
+  
+  pending scenario "Delete selected slide (one)", js: true do
     @to_delete = []
     @to_leave = []
 
@@ -95,13 +98,12 @@ feature "Slide Pages" do
 
     visit album_slides_path @album
 
-    visit album_slides_path @album
     expect{
       remove_slides_from_page(@to_delete, @to_leave) { click_button("Delete selected") }
-    }.to change(Slide, :count).by(@to_delete.length*(-1))
+      }.to change(Slide, :count).by(@to_delete.length*(-1))
   end
 
-  scenario "Delete selected slides (many)", js: true do
+  pending scenario "Delete selected slides (many)", js: true do
     @to_delete = []
     @to_leave = []
 
@@ -114,12 +116,12 @@ feature "Slide Pages" do
     visit album_slides_path @album
     expect{
       remove_slides_from_page(@to_delete, @to_leave) { click_button("Delete selected") }
-    }.to change(Slide, :count).by(@to_delete.length*(-1))
+      }.to change(Slide, :count).by(@to_delete.length*(-1))
   end
 
   scenario "Show slide"
 
-  scenario "Move selected slide (one)", js: true do
+  pending scenario "Move selected slide (one)", js: true do
     @to_move = []
     @to_leave = []
 
@@ -141,10 +143,10 @@ feature "Slide Pages" do
         select @album3.name, from: "new_album_id"    
         click_button("Move")
       }
-    }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
+      }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
   end
 
-  scenario "Move selected slides (many)", js: true do
+  pending scenario "Move selected slides (many)", js: true do
     @to_move = []
     @to_leave = []
 
@@ -163,9 +165,9 @@ feature "Slide Pages" do
       remove_slides_from_page(@to_move, @to_leave) {
         click_button("Move selected")
         select @album3.name, from: "new_album_id"    
-        click_button("Move")
-      }
-    }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
+        click_button("Move") }
+      }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
   end
+
 end
 

@@ -7,7 +7,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: footoo_development
-  pool: 5
+  pool: 50
   method: md5
   user: footoo
   password:
@@ -19,7 +19,7 @@ test:
   adapter: postgresql
   encoding: unicode
   database: footoo_test
-  pool: 5
+  pool: 50
   method: md5
   user: footoo
   password:

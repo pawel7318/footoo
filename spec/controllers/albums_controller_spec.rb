@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe AlbumsController do
 
-  let(:user) { create(:user) }
+  let(:user) { create :user }
   let(:album) { create(:album) }
 
-  around do
+  around :each do |scenario|
     login_and_switch_schema user
+    scenario.run
+    destroy_users_schema user
+    destroy_user user
   end
 
   describe "GET #index" do
