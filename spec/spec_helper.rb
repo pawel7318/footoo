@@ -63,6 +63,8 @@ Spork.prefork do
     config.include Capybara::DSL
     config.include FactoryGirl::Syntax::Methods
     config.include Warden::Test::Helpers
+    config.include Devise::TestHelpers, type: :controller
+    
     # config.include Rack::Test::Methods, type: :controller
     # Disable the old-style object.should syntax.
     config.expect_with :rspec do |c|

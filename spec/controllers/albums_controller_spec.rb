@@ -2,33 +2,33 @@ require 'spec_helper'
 
 describe AlbumsController do
 
-  let(:user) { create :user }
   let(:album) { create(:album) }
 
-  around :each do |scenario|
-    login_and_switch_schema user
-    scenario.run
-    destroy_users_schema user
-    destroy_user user
+  before(:all) do
+    @user = create :user
   end
 
-  describe "GET #index" do
-    before do
-      @album = album
-      get :index
-    end
-    it { expect(assigns(:albums)).to match_array([@album]) }
-    it { expect(response).to render_template :index }    
+  before(:each) do
+    sign_in_and_switch_schema @user
+  end
+
+  after(:all) do
+    destroy_users_schema @user
+    destroy_user @user
+  end
+
+  # describe "dummy" do
+  #   it { expect(1).to eq(1) }
+  # end
+
+  describe "GET #edit" do
+    before { get :edit, id: album }
+    it { expect(response).to render_template :edit }
   end
 
   describe "GET #new" do
     before { get :new }
     it { expect(response).to render_template :new }
-  end
-
-  describe "GET #edit" do
-    before { get :edit, id: album }
-    it { expect(response).to render_template :edit }
   end
 
   describe "POST #create" do

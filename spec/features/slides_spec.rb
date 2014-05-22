@@ -2,15 +2,20 @@ require 'spec_helper'
 
 feature "Slide Pages" do
 
-  given(:user) { create :user }
   given(:album) { create :album }
   given(:slide) { create :slide }
 
-  around :each do |scenario|
-    login_and_switch_schema user
-    scenario.run
-    destroy_users_schema user
-    destroy_user user
+  before(:all) do
+    @user = create :user
+  end
+
+  after(:all) do
+    destroy_users_schema @user
+    destroy_user @user
+  end
+
+  before(:each) do      
+    login_and_switch_schema @user
   end
 
   scenario "Create one slide" do
@@ -36,8 +41,8 @@ feature "Slide Pages" do
     expect {
       attach_file 'slide_photo', "#{Rails.root}/spec/fixtures/sample_1.jpg"
       click_button "Create Slide"
-    }.to_not change(Slide, :count)
-  end
+      }.to_not change(Slide, :count)
+    end
 
   scenario "Create same slide twice in two different albums (failure expected)" do
 
@@ -85,89 +90,83 @@ feature "Slide Pages" do
     visit album_slides_path slide.album
     expect{page.find('.btn.btn-mini.btn-danger').click}.to change(Slide, :count).by(-1)
   end
-  
-  pending scenario "Delete selected slide (one)", js: true do
-    @to_delete = []
-    @to_leave = []
 
-    @album = album
+  scenario "Delete selected slide (one)", js: true do
+    to_delete = []
+    to_leave = []
 
-    @to_leave << create(:slide, album: @album)
-    @to_delete << create(:slide, album: @album)
-    @to_leave << create(:slide, album: @album)
+    album = create(:album, user: @user)
 
-    visit album_slides_path @album
+    to_leave << create(:slide, album: album)
+    to_delete << create(:slide, album: album)
+    to_leave << create(:slide, album: album)
 
-    expect{
-      remove_slides_from_page(@to_delete, @to_leave) { click_button("Delete selected") }
-      }.to change(Slide, :count).by(@to_delete.length*(-1))
+    visit album_slides_path album
+
+    expect{ remove_slides_from_page(to_delete, to_leave) { click_button("Delete selected") }}.to change(Slide, :count).by(to_delete.length*(-1))        
   end
 
-  pending scenario "Delete selected slides (many)", js: true do
-    @to_delete = []
-    @to_leave = []
+  scenario "Delete selected slides (many)", js: true do
+    to_delete = []
+    to_leave = []
 
-    @album = album
+    album = create(:album, user: @user)
 
-    @to_delete << create(:slide, album: @album)
-    @to_leave << create(:slide, album: @album)
-    @to_delete << create(:slide, album: @album)
+    to_delete << create(:slide, album: album)
+    to_leave << create(:slide, album: album)
+    to_delete << create(:slide, album: album)
 
-    visit album_slides_path @album
-    expect{
-      remove_slides_from_page(@to_delete, @to_leave) { click_button("Delete selected") }
-      }.to change(Slide, :count).by(@to_delete.length*(-1))
+    visit album_slides_path album
+    expect{ remove_slides_from_page(to_delete, to_leave) { click_button("Delete selected") }}.to change(Slide, :count).by(to_delete.length*(-1))
   end
 
   scenario "Show slide"
 
-  pending scenario "Move selected slide (one)", js: true do
-    @to_move = []
-    @to_leave = []
+  scenario "Move selected slide (one)", js: true do
+    to_move = []
+    to_leave = []
 
-    @album1 = create(:album)
-    @album2 = create(:album)
-    @album3 = create(:album)
-    @album4 = create(:album)
+    album1 = create(:album, user: @user)
+    album2 = create(:album, user: @user)
+    album3 = create(:album, user: @user)
+    album4 = create(:album, user: @user)
 
 
-    @to_leave << create(:slide, album: @album2)
-    @to_move << create(:slide, album: @album2)
-    @to_leave << create(:slide, album: @album2)
+    to_leave << create(:slide, album: album2)
+    to_move << create(:slide, album: album2)
+    to_leave << create(:slide, album: album2)
 
-    visit album_slides_path @album2
+    visit album_slides_path album2
 
-    expect{
-      remove_slides_from_page(@to_move, @to_leave) {
-        click_button("Move selected")
-        select @album3.name, from: "new_album_id"    
-        click_button("Move")
-      }
-      }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
+    expect{remove_slides_from_page(to_move, to_leave) {
+      click_button("Move selected")
+      select album3.name, from: "new_album_id"    
+      click_button("Move")
+      }}.to change{to_move.map { |slide| Slide.find(slide.id).album_id }}.from([album2.id]*to_move.count).to([album3.id]*to_move.count)
   end
 
-  pending scenario "Move selected slides (many)", js: true do
-    @to_move = []
-    @to_leave = []
+  scenario "Move selected slides (many)", js: true do
+    to_move = []
+    to_leave = []
 
-    @album1 = create(:album)
-    @album2 = create(:album)
-    @album3 = create(:album)
-    @album4 = create(:album)
+    album1 = create(:album, user: @user)
+    album2 = create(:album, user: @user)
+    album3 = create(:album, user: @user)
+    album4 = create(:album, user: @user)
 
-    @to_move << create(:slide, album: @album2)
-    @to_leave << create(:slide, album: @album2)
-    @to_move << create(:slide, album: @album2)
+    to_move << create(:slide, album: album2)
+    to_leave << create(:slide, album: album2)
+    to_move << create(:slide, album: album2)
 
-    visit album_slides_path @album2
+    visit album_slides_path album2
 
     expect{
-      remove_slides_from_page(@to_move, @to_leave) {
+      remove_slides_from_page(to_move, to_leave) {
         click_button("Move selected")
-        select @album3.name, from: "new_album_id"    
+        select album3.name, from: "new_album_id"    
         click_button("Move") }
-      }.to change{@to_move.map { |slide| Slide.find(slide.id).album_id }}.from([@album2.id]*@to_move.count).to([@album3.id]*@to_move.count)
+        }.to change{to_move.map { |slide| Slide.find(slide.id).album_id }}.from([album2.id]*to_move.count).to([album3.id]*to_move.count)
   end
-
+  
 end
 

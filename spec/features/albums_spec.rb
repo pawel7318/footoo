@@ -1,19 +1,24 @@
   require 'spec_helper'
 
   feature "Album Pages" do
-
-    given(:user) { create :user }
+    
     given(:album) { create :album }
 
-    around :each do |scenario|
-      login_and_switch_schema user
-      scenario.run
-      destroy_users_schema user
-      destroy_user user
+    before(:all) do
+      @user = create :user
     end
 
+    after(:all) do
+      destroy_users_schema @user
+      destroy_user @user
+    end
+
+    before(:each) do      
+      login_and_switch_schema @user
+    end
+    
     scenario "Create new album with valid data" do
-      visit new_album_path
+      visit new_album_path      
 
       @album = build(:album)
       fill_in "Name", with: @album.name

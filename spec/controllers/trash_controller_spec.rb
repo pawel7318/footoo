@@ -2,15 +2,21 @@ require 'spec_helper'
 
 describe TrashController do
 
-  let(:user) { create :user }
+  
   let(:album) { create :album }
   let(:slide) { build :slide }
 
-  around :each do |scenario|
-    login_and_switch_schema user
-    scenario.run
-    destroy_users_schema user
-    destroy_user user
+  before(:all) do
+    @user = create :user
+  end
+
+  after(:all) do
+    destroy_users_schema @user
+    destroy_user @user
+  end
+
+  before(:each) do      
+    sign_in_and_switch_schema @user
   end
 
   describe "GET #index" do
