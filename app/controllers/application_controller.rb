@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def scope_tenant
-    Apartment::Database.switch(current_user.username)
+    Apartment::Tenant.switch(current_user.username)
   end
 end

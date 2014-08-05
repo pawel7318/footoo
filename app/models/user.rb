@@ -14,6 +14,6 @@ class User < ActiveRecord::Base
   private
 
   def create_schema    
-    Apartment::Database.create(self.username)
+    Apartment::Tenant.create(self.username)
   end  
 end
