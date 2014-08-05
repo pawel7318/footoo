@@ -9,8 +9,7 @@ gem 'rails', '4.0.2'
 
 group :development, :test do
 	gem 'pg'
-	gem 'rspec-rails'
-	gem 'fuubar'
+	gem 'rspec-rails', '~> 2.14.0'
 	gem 'annotate'
 	gem 'awesome_print'
 	gem 'pry'
