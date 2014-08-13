@@ -16,7 +16,8 @@ describe Slide do
   it "is invalid with a duplicate photo fingerprint" do
     slide.save
     @slide = slide.dup
-    expect(@slide).to have(1).error_on(:photo_fingerprint)    
+    @slide.valid?
+    expect(@slide.errors[:photo_fingerprint].size).to eq(1)
   end
 
   # paranoid2 gem Trash implementation
@@ -32,7 +33,7 @@ describe Slide do
       expect{@slide.destroy(force: false)}.to change(Slide.only_deleted, :count).by(1)
     end    
     it "visible if .with_deleted" do
-      expect{@slide.destroy(force: false)}.to_not change(Slide.with_deleted, :count).by(1)
+      expect{@slide.destroy(force: false)}.to_not change(Slide.with_deleted, :count)
     end
   end
 

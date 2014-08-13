@@ -13,11 +13,12 @@ describe Album do
 		expect(album).not_to be_valid
 	end
 
-	it "is invalid with a duplicat name" do
+	it "is invalid with a duplicate name" do
 		
 		Album.create(name: 'Some name')
 
-		album.name = 'Some name'		
-		expect(album).to have(1).error_on(:name)
+		album.name = 'Some name'				
+    album.valid?
+    expect(album.errors[:name].size).to eq(1)
 	end
 end

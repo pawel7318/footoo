@@ -114,7 +114,7 @@ describe TrashController do
       it { expect{delete_all}.to_not change(Slide.only_deleted, :count) }
       it { expect{delete_all}.to_not change(Slide.with_deleted, :count) }
 
-      pending "destroy_all! returns no false ?" do
+      skip "destroy_all! returns no false ?" do
         context do
           before { delete_all }
           it { expect(response).to redirect_to trash_index_url }
