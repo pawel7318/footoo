@@ -1,39 +1,29 @@
 require 'rubygems'
-require 'spork'
+require 'simplecov'
 require 'database_cleaner'
 
-Spork.prefork do
-  ENV["RAILS_ENV"] ||= 'test'
-  require File.expand_path("../../config/environment", __FILE__)  
-  require 'rspec/rails'
-  # require 'rspec/autorun'
-  unless ENV['DRB']
-    require 'simplecov'
-    SimpleCov.start do
-      coverage_dir 'public/coverage'
-      add_filter '/test/'
-      add_filter '/config/'
-      add_filter '/vendor/'
-      add_filter '/spec/'
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)  
+require 'rspec/rails'
 
-      add_group 'Controllers', 'app/controllers'
-      add_group 'Models', 'app/models'
-      #add_group 'Helpers', 'app/helpers'
-      #add_group 'Mailers', 'app/mailers'
-    end
-  end
+SimpleCov.start do
+  coverage_dir 'public/coverage'
+  add_filter '/test/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+  add_filter '/spec/'
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+end
 
 
-  # Requires supporting ruby files with custom matchers and macros, etc,
-  # in spec/support/ and its subdirectories.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-  # Checks for pending migrations before tests are run.
-  # If you are not using ActiveRecord, you can remove this line.
-  ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-  RSpec.configure do |config|
-    config.infer_spec_type_from_file_location!
+RSpec.configure do |config|
+  config.infer_spec_type_from_file_location!
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -73,24 +63,3 @@ Spork.prefork do
       c.syntax = :expect
     end   
   end
-end
-
-Spork.each_run do
-  # This code will be run each time you run your specs.
-  
-  if ENV['DRB']
-    require 'simplecov'
-    SimpleCov.start do
-      coverage_dir 'public/coverage'
-      add_filter '/test/'
-      add_filter '/config/'
-      add_filter '/vendor/'
-      add_filter '/spec/'
-
-      add_group 'Controllers', 'app/controllers'
-      add_group 'Models', 'app/models'
-      #add_group 'Helpers', 'app/helpers'
-      #add_group 'Mailers', 'app/mailers'
-    end
-  end
-end

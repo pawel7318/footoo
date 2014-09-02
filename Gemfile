@@ -18,7 +18,8 @@ end
 
 group :test do
 	gem 'capybara'
-	gem 'spork-rails'
+	# gem 'spork', git: 'https://github.com/manafire/spork.git', ref: '38c79dc'
+	# gem 'spork-rails'
 	gem 'factory_girl_rails'
 	gem 'faker'
 	gem 'launchy'
