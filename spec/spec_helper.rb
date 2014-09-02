@@ -65,6 +65,7 @@ Spork.prefork do
     config.include FactoryGirl::Syntax::Methods
     config.include Warden::Test::Helpers
     config.include Devise::TestHelpers, type: :controller
+    config.raise_errors_for_deprecations!
     # config.include Devise::TestHelpers
     # config.include Rack::Test::Methods, type: :controller
     # Disable the old-style object.should syntax.
