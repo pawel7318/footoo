@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TrashController do
+describe TrashController, :type => :controller do
 
   
   let(:album) { create :album }
@@ -64,7 +64,7 @@ describe TrashController do
 
     context "failure" do
       before do
-        Slide.any_instance.stub(:destroy).with({:force=>true}).and_return(false)
+        allow_any_instance_of(Slide).to receive(:destroy).with({:force=>true}).and_return(false)
       end
 
       it { expect{delete_it}.to_not change(Slide, :count) }
@@ -107,7 +107,7 @@ describe TrashController do
 
     context "failure" do
       before do
-        Slide.only_deleted.any_instance.stub(:destroy).and_return(false)
+        allow_any_instance_of(Slide.only_deleted).to receive(:destroy).and_return(false)
       end
 
       it { expect{delete_all}.to_not change(Slide, :count) }
@@ -148,7 +148,7 @@ describe TrashController do
 
     context "failure" do
       before do
-        Slide.any_instance.stub(:restore).and_return(false)
+        allow_any_instance_of(Slide).to receive(:restore).and_return(false)
       end
 
       it { expect{restore_it}.to_not change(Slide, :count) }
@@ -191,7 +191,7 @@ describe TrashController do
 
     context "failure" do
       before do
-        Slide.any_instance.stub(:restore).and_return(false)
+        allow_any_instance_of(Slide).to receive(:restore).and_return(false)
       end
 
       it { expect{restore_all}.to_not change(Slide, :count) }

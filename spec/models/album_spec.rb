@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Album do
+describe Album, :type => :model do
 	let (:album) { Album.new }
 
 	it "is valid with valid name" do

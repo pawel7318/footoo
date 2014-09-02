@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Slide do
+describe Slide, :type => :model do
   let (:slide) { build(:slide) }
 
   it "is valid with a photo" do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AlbumsController do
+describe AlbumsController, :type => :controller do
 
   let(:album) { create(:album) }
 
@@ -46,7 +46,7 @@ describe AlbumsController do
 
     context "failure" do
       before do
-        Album.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Album).to receive(:save).and_return(false)
       end
 
       it do
@@ -75,7 +75,7 @@ describe AlbumsController do
 
     context "failure" do
       before do
-        Album.any_instance.stub(:update).and_return(false)
+        allow_any_instance_of(Album).to receive(:update).and_return(false)
       end
 
       it do
@@ -102,7 +102,7 @@ describe AlbumsController do
 
     context "failure" do
       before do
-        Album.any_instance.stub(:destroy).and_return(false)
+        allow_any_instance_of(Album).to receive(:destroy).and_return(false)
       end
       
       it do

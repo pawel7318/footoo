@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe SlidesController do
+describe SlidesController, :type => :controller do
 
   
   let(:album) { create :album }
@@ -66,7 +66,7 @@ describe SlidesController do
     context "failure" do
       before do
         @album = album
-        Slide.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Slide).to receive(:save).and_return(false)
       end
       
       it do
@@ -95,7 +95,7 @@ describe SlidesController do
 
     context "failure" do
       before do
-        Slide.any_instance.stub(:update).and_return(false)
+        allow_any_instance_of(Slide).to receive(:update).and_return(false)
       end
 
       it do
