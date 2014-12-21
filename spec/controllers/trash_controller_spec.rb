@@ -107,7 +107,7 @@ describe TrashController, :type => :controller do
 
     context "failure" do
       before do
-        allow_any_instance_of(Slide.only_deleted).to receive(:destroy).and_return(false)
+        allow_any_instance_of(Slide).to receive(:destroy).and_return(false)
       end
 
       it { expect{delete_all}.to_not change(Slide, :count) }
