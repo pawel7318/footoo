@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby "2.0.0"
+ruby "2.1.5"
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -13,7 +13,9 @@ group :development, :test do
 	gem 'annotate'
 	gem 'awesome_print'
 	gem 'pry'
-	gem 'pry-debugger'
+	gem 'pry-byebug'
+	gem 'byebug'
+	gem 'web-console'
 end
 
 group :test do
@@ -26,6 +28,8 @@ group :test do
 	gem 'simplecov', '~> 0.7.1', :require => false, :group => :test
 	gem 'selenium-webdriver'
 	gem 'database_cleaner'
+	gem 'spring'
+	gem "spring-commands-rspec"
 end
 
 # Gems used only for assets and not required
@@ -38,7 +42,7 @@ gem 'uglifier'
 gem 'less-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '2.2.8'
 gem 'sass-rails'
 gem 'paperclip'
 gem 'exifr'
@@ -52,6 +56,7 @@ gem 'daemons'
 gem 'delayed_job_web'
 gem 'devise'
 gem 'apartment'
+gem 'activesupport'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', :platform => :ruby
