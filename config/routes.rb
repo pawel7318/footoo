@@ -21,8 +21,6 @@ Footoo::Application.routes.draw do
   match 'trash/:id', to: 'trash#restore', via: :patch
   match 'trash/:id', to: 'trash#restore', via: :put
 
-  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

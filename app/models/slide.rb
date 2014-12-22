@@ -12,7 +12,7 @@
     validates :photo, presence: true
     validates :photo_fingerprint, uniqueness: true
 
-    # process_in_background :photo, queue: 'paperclip_processing'
+    process_in_background :photo, queue: 'paperclip_processing'
 
   	# validates :album_id, presence: true
   end
