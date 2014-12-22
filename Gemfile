@@ -49,6 +49,7 @@ gem 'devise'
 gem 'apartment'
 gem 'apartment-sidekiq'
 gem 'activesupport'
+gem 'sinatra'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 
