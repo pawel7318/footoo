@@ -6,12 +6,13 @@
     :preserve_files => true,
     :styles => { :medium => "800x800>", :small => "300x300>", :thumb => "150x150>" },
     :convert_options => { :medium => "-quality 70 -interlace Plane -strip", :small => "-quality 70 -interlace Plane -strip", :thumb => "-quality 70 -interlace Plane -strip" },
-    :default_url => "/images/coming_soon.png"
+    :default_url => "/images/coming_soon.png",
+    :use_timestamp => false
     validates_attachment_content_type :photo, :content_type => %w(image/jpeg image/jpg)
     validates :photo, presence: true
     validates :photo_fingerprint, uniqueness: true
 
-    process_in_background :photo, queue: 'paperclip_processing'
+    # process_in_background :photo, queue: 'paperclip_processing'
 
   	# validates :album_id, presence: true
   end

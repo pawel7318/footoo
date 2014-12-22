@@ -6,8 +6,8 @@
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:thumbnail) %>:</strong></dt>
   <dd><%= image_tag @slide.photo.url(:thumb) %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:oryginal_file_path) %>:</strong></dt>
-  <dd><%= @slide.photo.url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:original_file_path) %>:</strong></dt>
+  <dd><%= @slide.photo.path %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= @desc = @slide.description; @desc.blank? ? "&nbsp;".html_safe : @desc %></dd>
   <dt><strong><%= model_class.human_attribute_name(:photo_file_name) %>:</strong></dt>
