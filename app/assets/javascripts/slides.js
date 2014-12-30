@@ -1,7 +1,13 @@
-function clone_checkboxes_values(src_form, src_prefix, dst_prefix) {
-  $('#' + src_form + ' input:checkbox').change(function(){
-   $('#' + dst_prefix + this.id.replace(src_prefix, '')).prop('checked', this.checked);
- });
+function move_selected_slides() {
+  $('#_method').val("PATCH");
+  var new_album_id = $('#select_new_album_id option:selected').val();
+  $('#new_album_id').val(new_album_id);
+  $('#slide_select_form').submit();
+}
+
+function delete_selected_slides() {
+  $('#_method').val("DELETE");
+  $('#slide_select_form').submit();
 }
 
 function show_dialog_move_slides_to_album() {
@@ -10,9 +16,8 @@ function show_dialog_move_slides_to_album() {
     draggable: false,
     modal: true,
     buttons: {
-      "Move": function() {
-        $('#form_move').submit();
-      },
+      "Move": function() { move_selected_slides() }
+      ,
       Cancel: function() {
         $( this ).dialog( "close" );
       }

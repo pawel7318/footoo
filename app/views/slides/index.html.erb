@@ -1,36 +1,22 @@
 <%= javascript_tag do -%>
-$(document).ready(function(){
-    clone_checkboxes_values('slide_select_form', 'slide_select', 'slide_move');
-    clone_checkboxes_values('slide_select_form', 'slide_select', 'slide_delete');
-    $('#move_selected_button').click(function() {show_dialog_move_slides_to_album()});
+
+$(document).ready(function() {  
+    $('#slide_select_form').attr('action',$(this).attr('data-action'));
+    $('#move_selected_button').click(function() { show_dialog_move_slides_to_album() });
+    $('#delete_selected_button').click(function() { delete_selected_slides() });
 });
+
 <% end -%>
 
 <%- model_class = Slide -%>
-<div class="page-header">
-  <h1><%= @album.name %> <%=t '.title', :default => model_class.model_name.human.pluralize.titleize.downcase %></h1>
-</div>
 
-<div id="dialog-move-slides-to-album" title="Move selected slides to:" class="hide">
-  <%= form_for :multi_slides_move, method: :patch, html: { id: 'form_move' }, remote: true do |f| %>
-    <% @slides.each do |slide| %>
-      <%= check_box_tag "ids[]", slide.id, false, class: "multi-select, hide", id: "slide_move_#{slide.id}" %>
-    <% end %>
-    <%= select_tag "new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
-  <% end %>
-</div>
+<%= form_tag :multi_slides_move, id: 'slide_select_form', remote: true do %>
+
+<%= hidden_field_tag '_method', '' %>
+<%= hidden_field_tag 'new_album_id', '' %>
 
 <%= button_tag "Move selected", { :type => 'button', :id => 'move_selected_button', :class => 'btn' } %>
-
-<%= form_for :multi_slides_delete, method: :delete, html: { id: 'form_delete' }, remote: true do |f| %>
-  <%= f.submit "Delete selected", :class => 'btn btn-danger' %>
-    <% @slides.each do |slide| %>
-      <%= check_box_tag "ids[]", slide.id, false, class: "multi-select, hide", id: "slide_delete_#{slide.id}" %>
-    <% end %>
-<% end %>
-
-<%= form_tag_html :id=> 'slide_select_form' %>
-
+<%= button_tag "Delete selected", { :type => 'button', :id => 'delete_selected_button', :class => 'btn btn-danger'} %>
 
 <table class="table table-striped">
   <thead>
@@ -74,7 +60,11 @@ $(document).ready(function(){
     <% end %>
   </tbody>
 </table>
-</form>
+<% end %>
+
+<div id="dialog-move-slides-to-album" title="Move selected slides to:" class="hide">
+  <%= select_tag "select_new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
+</div>
 
 <%= render :partial => 'albums/show_buttons' %>
 

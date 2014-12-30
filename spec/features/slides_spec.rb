@@ -140,7 +140,7 @@ feature "Slide Pages" do
 
     expect{remove_slides_from_page(to_move, to_leave) {
       click_button("Move selected")
-      select album3.name, from: "new_album_id"    
+      select album3.name, from: "select_new_album_id"    
       click_button("Move")
       }}.to change{to_move.map { |slide| Slide.find(slide.id).album_id }}.from([album2.id]*to_move.count).to([album3.id]*to_move.count)
   end
@@ -163,7 +163,7 @@ feature "Slide Pages" do
     expect{
       remove_slides_from_page(to_move, to_leave) {
         click_button("Move selected")
-        select album3.name, from: "new_album_id"    
+        select album3.name, from: "select_new_album_id"    
         click_button("Move") }
         }.to change{to_move.map { |slide| Slide.find(slide.id).album_id }}.from([album2.id]*to_move.count).to([album3.id]*to_move.count)
   end
