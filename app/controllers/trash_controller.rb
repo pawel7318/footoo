@@ -1,4 +1,6 @@
 class TrashController < ApplicationController
+  before_action :authenticate_user!
+  before_action :scope_tenant
 	before_action :set_slide, only: [ :show, :destroy, :restore ]
 
 	def index
