@@ -1,69 +1,75 @@
 <%= javascript_tag do -%>
 
 $(document).ready(function() {  
-    $('#slide_select_form').attr('action',$(this).attr('data-action'));
-    $('#move_selected_button').click(function() { show_dialog_move_slides_to_album() });
-    $('#delete_selected_button').click(function() { delete_selected_slides() });
+$('#slide_select_form').attr('action',$(this).attr('data-action'));
+$('#move_selected_button').click(function() { show_dialog_move_slides_to_album() });
+$('#delete_selected_button').click(function() { delete_selected_slides() });
+
+$('#selectable').selectable({
+filter: 'li',
+disabled: true,
+selected: function(event, ui) {
+  $(ui.selected).children('.multi-select').prop('checked', true);
+},
+unselected: function(event, ui) {
+  $(ui.unselected).children('.multi-select').prop('checked', false);
+}
+});
+
+$('#edit_mode_button').toggleClick(
+  function() {
+    $('.edit-button').fadeToggle('slow', function() { $('#selectable').selectable("enable") });
+        
+  },
+  function() {
+    $('.edit-button').fadeToggle('slow', function() { $('#selectable').selectable("disable") });
+    
+  });
+
 });
 
 <% end -%>
 
+<%= form_tag :multi_slides_move, id: 'slide_select_form', remote: true do %>
+
+<div id="edit_bar">
+<span class="icon-edit" id="edit_mode_button"></span>
+
 <%- model_class = Slide -%>
 
-<%= form_tag :multi_slides_move, id: 'slide_select_form', remote: true do %>
+
 
 <%= hidden_field_tag '_method', '' %>
 <%= hidden_field_tag 'new_album_id', '' %>
 
-<%= button_tag "Move selected", { :type => 'button', :id => 'move_selected_button', :class => 'btn' } %>
-<%= button_tag "Delete selected", { :type => 'button', :id => 'delete_selected_button', :class => 'btn btn-danger'} %>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:thumbnail) %></th>
-      <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:photo_file_name) %></th>
-      <th><%= model_class.human_attribute_name(:photo_content_type) %></th>
-      <th><%= model_class.human_attribute_name(:photo_file_size) %></th>
-      <th><%= model_class.human_attribute_name(:photo_updated_at) %></th>
-      <th><%= model_class.human_attribute_name(:photo_fingerprint) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @slides.each do |slide| %>
-    <tr id="slide_<%= slide.id %>">
-      <td><%= check_box_tag "ids[]", slide.id, false, class: "multi-select", id: "slide_select_#{slide.id}" %></td>
-      <td><%= link_to slide.id, slide_path(slide.id) %></td>
-      <td><%= image_tag slide.photo.url(:thumb) %></td>
-      <td><%= slide.description %></td>
-      <td><%= slide.photo_file_name %></td>
-      <td><%= slide.photo_content_type %></td>
-      <td><%= slide.photo_file_size %></td>
-      <td><%= slide.photo_updated_at %></td>
-      <td><%= slide.photo_fingerprint %></td>
-      <td><%=l slide.created_at %></td>
-      <td>
-        <%= link_to t('.edit', :default => t("helpers.links.edit")),
-        edit_slide_path(slide), :class => 'btn btn-mini' %>
-        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-        multi_slides_delete_path(slide.album.id, slide.id),
-        :method => :delete,
-        :class => 'btn btn-mini btn-danger',
-        :remote => true %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= button_tag "Move selected", { :type => 'button', :id => 'move_selected_button', :class => 'btn edit-button' } %>
+<%= button_tag "Delete selected", { :type => 'button', :id => 'delete_selected_button', :class => 'btn btn-danger edit-button'} %>
+
+</div>
+
+<div class="slides-container">
+  <ol class="slides-list" id="those_selected">
+  </ol>
+</div>
+
+
+<div class="slides-containter" id="selectable">
+  <ol class="slides-list">
+    <% @slides.each do |slide| %>    
+    <li id="<%= "li_#{slide.id}" %>" class="ui-widget-content">
+      <%= check_box_tag "ids[]", slide.id, false, class: "multi-select", id: "slide_select_#{slide.id}" %>
+      <div>
+        <%= image_tag slide.photo.url(:thumb) %>
+      </div>
+    </li>
+    <% end %>  
+  </ol>
+</div>
+
 <% end %>
-
 <div id="dialog-move-slides-to-album" title="Move selected slides to:" class="hide">
-  <%= select_tag "select_new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
+ <%= select_tag "select_new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
 </div>
 
 <%= render :partial => 'albums/show_buttons' %>

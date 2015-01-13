@@ -11,5 +11,6 @@
  *= require_self
  *= require bootstrap_and_overrides.css.less
  *= require jquery-ui
+ *= require thumbs_grid
  *= require_tree .
  */
