@@ -1,43 +1,11 @@
-<%= javascript_tag do -%>
-
-$(document).ready(function() {  
-$('#slide_select_form').attr('action',$(this).attr('data-action'));
-$('#move_selected_button').click(function() { show_dialog_move_slides_to_album() });
-$('#delete_selected_button').click(function() { delete_selected_slides() });
-
-$('#selectable').selectable({
-filter: 'li',
-disabled: true,
-selected: function(event, ui) {
-  $(ui.selected).children('.multi-select').prop('checked', true);
-},
-unselected: function(event, ui) {
-  $(ui.unselected).children('.multi-select').prop('checked', false);
-}
-});
-
-$('#edit_mode_button').toggleClick(
-  function() {
-    $('.edit-button').fadeToggle('slow', function() { $('#selectable').selectable("enable") });
-        
-  },
-  function() {
-    $('.edit-button').fadeToggle('slow', function() { $('#selectable').selectable("disable") });
-    
-  });
-
-});
-
-<% end -%>
+<%= javascript_include_tag "slides_index" %>
 
 <%= form_tag :multi_slides_move, id: 'slide_select_form', remote: true do %>
 
 <div id="edit_bar">
-<span class="icon-edit" id="edit_mode_button"></span>
+<span class="icon-cog" id="edit_mode_button"></span>
 
 <%- model_class = Slide -%>
-
-
 
 <%= hidden_field_tag '_method', '' %>
 <%= hidden_field_tag 'new_album_id', '' %>
@@ -53,14 +21,13 @@ $('#edit_mode_button').toggleClick(
   </ol>
 </div>
 
-
 <div class="slides-containter" id="selectable">
   <ol class="slides-list">
     <% @slides.each do |slide| %>    
     <li id="<%= "li_#{slide.id}" %>" class="ui-widget-content">
       <%= check_box_tag "ids[]", slide.id, false, class: "multi-select", id: "slide_select_#{slide.id}" %>
       <div>
-        <%= image_tag slide.photo.url(:thumb) %>
+        <%= image_tag slide.photo.url(:thumb), data: { src_medium: slide.photo.url(:medium)}, class: "slide-thumb" %>
       </div>
     </li>
     <% end %>  
@@ -70,6 +37,13 @@ $('#edit_mode_button').toggleClick(
 <% end %>
 <div id="dialog-move-slides-to-album" title="Move selected slides to:" class="hide">
  <%= select_tag "select_new_album_id", options_for_select(@other_albums.collect{ |album| [album.name, album.id]}) %>
+</div>
+
+<div id="slideshow_div">
+  <span class="slideshow-button icon-remove-sign" id="close_button"></span>
+  <span class="slideshow-button icon-chevron-left" id="prev_button"></span>
+  <span class="slideshow-button icon-chevron-right" id="next_button"></span>
+  <img id="slideshow_slide_placeholder" src="">
 </div>
 
 <%= render :partial => 'albums/show_buttons' %>

@@ -6,7 +6,6 @@ $.fn.toggleClick=function(){
   })
 }
 
-
 function move_selected_slides() {
   $('#_method').val("PATCH");
   var new_album_id = $('#select_new_album_id option:selected').val();
@@ -47,7 +46,5 @@ function transform_portrait_images() {
 }
 
 function glow_checked() {
-
-  $(this).closest(".zoom-caption").addClass("oxo");
-  
+  $(this).closest(".zoom-caption").addClass("oxo");  
 }
