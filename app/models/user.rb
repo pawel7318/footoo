@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  # replaced by apartment gem:
   has_many :albums, dependent: :nullify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

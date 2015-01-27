@@ -1,7 +1,8 @@
 class Album < ActiveRecord::Base
-  scope :for_user, ->(user) { where("user_id = ?", user) }
+  # replaced by apartment gem:
+  # scope :for_user, ->(user) { where("user_id = ?", user) }
+  # belongs_to :user
+
 	has_many :slides, dependent: :restrict_with_exception
-  belongs_to :user
-  
 	validates :name, presence: true, uniqueness: true
 end

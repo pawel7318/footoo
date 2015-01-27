@@ -1,6 +1,7 @@
 FactoryGirl.define do
 	factory :album do
-    association :user
+    # replaced by apartment gem:
+    # association :user
 		name { Faker::Commerce.product_name }
 
 		factory :invalid_album do
