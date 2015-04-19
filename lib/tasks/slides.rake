@@ -38,7 +38,7 @@ namespace :slides do |args|
       exit 69
     end
 
-    Dir.glob("#{options[:path]}/**/*.jpg", File::FNM_CASEFOLD).sort { |file|
+    Dir.glob("#{options[:path]}/**/*.jpg", File::FNM_CASEFOLD).sort.each { |file|
 
       dir, filename = file.match(/.+\/(.+)\/(.+)/).captures
 
