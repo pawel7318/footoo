@@ -8,53 +8,53 @@ gem 'rails', '4.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-	gem 'pg'
-	gem 'rspec-rails'
-	gem 'annotate'
-	gem 'awesome_print'
-	gem 'pry'
-	gem 'pry-byebug'
-	gem 'byebug'
-	gem 'web-console'
+	gem 'pg', '0.18.1' # this one and probably some other should go outside the group
+	gem 'rspec-rails', '3.2.1'
+	gem 'annotate', '2.6.8'
+	gem 'awesome_print', '1.6.1'
+	gem 'pry', '0.10.1'
+	gem 'pry-byebug', '3.1.0'
+	gem 'byebug', '4.0.5'
+	gem 'web-console', '2.1.2'
 end
 
 group :test do
-	gem 'capybara'
-	gem 'factory_girl_rails'
-	gem 'faker'
-	gem 'launchy'
-	gem 'simplecov', '~> 0.7.1', :require => false, :group => :test
-	gem 'selenium-webdriver'
-	gem 'database_cleaner'
-	gem 'spring'
-	gem "spring-commands-rspec"
+	gem 'capybara', '2.4.4'
+	gem 'factory_girl_rails', '4.5.0'
+	gem 'faker', '1.4.3'
+	gem 'launchy', '2.4.3'
+	gem 'simplecov', '0.7.1', :require => false, :group => :test
+	gem 'selenium-webdriver', '2.45.0'
+	gem 'database_cleaner', '1.4.1'
+	gem 'spring', '1.3.4'
+	gem 'spring-commands-rspec', '1.0.4'
 end
 
-gem 'turbolinks'
-gem 'coffee-rails'
-gem 'uglifier'
-gem 'less-rails'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'turbolinks', '2.5.3'
+gem 'coffee-rails', '4.1.0'
+gem 'uglifier', '2.7.1'
+gem 'less-rails', '2.7.0'
+gem 'jquery-rails', '3.1.2'
+gem 'jquery-ui-rails','3.1.2'
 gem 'twitter-bootstrap-rails', '2.2.8'
-gem 'sass-rails'
-gem 'paperclip'
-gem 'exifr'
-gem 'jquery-fileupload-rails' # remove it ?
-gem 'activerecord-import'
-gem 'paranoid2'
-gem 'delayed_paperclip'
-gem 'daemons'
-gem 'devise'
-gem 'apartment'
-gem 'apartment-sidekiq'
-gem 'activesupport'
-gem 'sinatra'
+gem 'sass-rails', '5.0.3'
+gem 'paperclip', '4.2.1'
+gem 'exifr', '1.2.1'
+gem 'jquery-fileupload-rails', '0.4.5' # remove it ?
+gem 'activerecord-import', '0.7.0'
+gem 'paranoid2', '1.1.5'
+gem 'delayed_paperclip', '2.9.1'
+gem 'daemons', '1.2.2'
+gem 'devise', '3.4.1'
+gem 'apartment', '1.0.0'
+gem 'apartment-sidekiq', '0.2.0'
+gem 'activesupport', '4.1.0'
+gem 'sinatra', '1.4.6'
 
 # See https://github.coffeem/sstephenson/execjs#readme for more supported runtimes
 
-gem 'therubyracer'
-gem 'execjs'
+gem 'therubyracer', '0.12.2'
+gem 'execjs', '2.5.2'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
