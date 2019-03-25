@@ -8,7 +8,6 @@ gem 'rails', '4.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-	gem 'pg', '0.18.1' # this one and probably some other should go outside the group
 	gem 'rspec-rails', '3.2.1'
 	gem 'annotate', '2.6.8'
 	gem 'awesome_print', '1.6.1'
@@ -30,6 +29,7 @@ group :test do
 	gem 'spring-commands-rspec', '1.0.4'
 end
 
+gem 'pg', '0.18.1'
 gem 'turbolinks', '2.5.3'
 gem 'coffee-rails', '4.1.0'
 gem 'uglifier', '2.7.1'
